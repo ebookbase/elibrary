@@ -73,7 +73,7 @@
         .btn-ghost-green:hover { background: rgba(34, 197, 94, 0.25); color: #fff; }
 
         .btn-ghost-cyan { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 5px 10px; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; }
-        .btn-ghost-cyan:hover { background: rgba(56, 189, 248, 0.25); color: #fff; }
+        .btn-ghost-cyan:hover { background: rgba(56, 189, 248, 0.25); border-color: #38bdf8; color: #fff; }
 
         .btn-action-clear-logs { background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;}
         .btn-action-clear-logs:hover { background: rgba(239, 68, 68, 0.15); }
@@ -271,7 +271,7 @@
             </div>
         </section>
 
-        <!-- 3. SUBJECTS TAB -->
+        <!-- 3. SUBJECTS -->
         <section id="subjectsTab" class="admin-section">
             <div class="card-admin-box">
                 <div class="card-admin-box-header"><h3><i class="fa-solid fa-folder-plus"></i> Create New Sublist</h3></div>
@@ -305,14 +305,13 @@
     </main>
 
     <script>
-        // NOTE: Make sure this URL matches your newly deployed Code.gs Web App URL
         const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
         
         let autoPdfViewLink = "";
         let autoPdfDownloadLink = "";
         let autoCoverLink = "";
 
-        // Function ensuring customized tag colors according to subjects (Computer, Maths, Science, etc.)
+        // Map tag colors to subjects
         function getSubjectColor(subject) {
             const s = (subject || '').toLowerCase();
             if (s.includes('math')) return '#ea580c';     // Math Orange
@@ -387,7 +386,7 @@
 
         function loadAllAdminData() { loadSubjects(); loadBooks(); loadUsers(); loadLogs(); }
 
-        // --- GOOGLE DRIVE SAFE UPLOADER (NO CORS ERRORS) ---
+        // --- GOOGLE DRIVE UPLOADER ---
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader(); reader.readAsDataURL(file);
@@ -397,6 +396,11 @@
         function handleFileSelected(type) {
             const file = document.getElementById(type + 'FileInput').files[0];
             if (file) {
+                // Check if file is above 25MB
+                if (file.size > 25 * 1024 * 1024) {
+                    showToast("File Too Large", "PDFs above 25MB exceed web app memory limits. Please compress it or use Direct Link mode.", "warning", 6000);
+                    return;
+                }
                 document.getElementById(`upload${type === 'pdf'?'Pdf':'Cover'}Btn`).disabled = false;
                 document.getElementById(`${type}BadgeContainer`).innerHTML = `<span style="font-size:0.72rem; color:var(--text-muted); margin-top:6px; display:inline-block;">Selected: ${file.name}</span>`;
             }
@@ -413,19 +417,19 @@
             btn.disabled = true; 
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading to Drive...';
             progressContainer.style.display = 'block';
-            progressBar.style.width = '15%';
+            progressBar.style.width = '20%';
 
             const totalMB = (file.size / (1024 * 1024)).toFixed(2);
-            progressText.innerHTML = `Encoding: 0.00 MB / ${totalMB} MB (15%)`;
+            progressText.innerHTML = `Encoding: 0.00 MB / ${totalMB} MB (20%)`;
 
             try {
                 const name = file.name.replace(/\s+/g, '_'); 
                 const base64 = await fileToBase64(file);
                 
-                progressBar.style.width = '45%';
-                progressText.innerHTML = `Uploading to Google Drive: ${(totalMB * 0.45).toFixed(2)} MB / ${totalMB} MB (45%)`;
+                progressBar.style.width = '55%';
+                progressText.innerHTML = `Uploading to Drive: ${(totalMB * 0.55).toFixed(2)} MB / ${totalMB} MB (55%)`;
 
-                // Uses simple plain text fetch payload to avoid CORS preflight options blockage
+                // Uses simple plain-text fetch without headers to prevent CORS preflight error
                 const response = await fetch(GOOGLE_APP_SCRIPT_URL, { 
                     method: 'POST', 
                     body: JSON.stringify({ 
@@ -447,7 +451,7 @@
                     autoPdfViewLink = result.viewUrl;
                     autoPdfDownloadLink = result.downloadUrl;
                     document.getElementById('driveBookTitle').value = file.name.replace('.pdf', '').replace(/_/g, ' ');
-                    document.getElementById('pdfBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-circle-check"></i> Connected to Google Drive</div>`;
+                    document.getElementById('pdfBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-check"></i> Connected to Google Drive</div>`;
                     document.getElementById('drivePublishBtn').disabled = false; 
                     document.getElementById('drivePublishBtn').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Publish Book Card to Portal';
                     showToast("Success", "PDF uploaded securely to Google Drive.", "success");
@@ -457,7 +461,7 @@
                 }
             } catch(e) { 
                 progressContainer.style.display = 'none';
-                showToast("Connection Error", "Could not reach database. Check network.", "error"); 
+                showToast("Connection Error", "Could not reach database. Check network or file size.", "error"); 
             }
             btn.innerHTML = 'Upload to Drive';
         }
@@ -484,14 +488,13 @@
                 const result = await response.json();
                 
                 if(result.success) {
-                    // Extract Direct Thumbnail to ensure clean rendering (No broken HTML previews!)
                     const fileId = result.downloadUrl.split('id=')[1];
                     autoCoverLink = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
                     
-                    document.getElementById('coverBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-circle-check"></i> Cover Attached</div>`;
-                    showToast("Success", "Cover graphic uploaded.", "success");
+                    document.getElementById('coverBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-image"></i> Graphic Attached</div>`;
+                    showToast("Success", "Cover image uploaded successfully.", "success");
                 } else {
-                    showToast("Error", result.message || "Failed to upload cover.", "error");
+                    showToast("Error", result.message || "Failed to upload graphic.", "error");
                 }
             } catch(e) { showToast("Error", "Could not connect to Drive.", "error"); }
             btn.innerHTML = 'Upload Cover';
@@ -500,7 +503,7 @@
         // --- BOOK DB MANAGER ---
         async function publishBookDriveMode() {
             const btn = document.getElementById('drivePublishBtn');
-            if (!autoPdfViewLink) { showToast("Notice", "Upload PDF first.", "warning"); return; }
+            if (!autoPdfViewLink) { showToast("Notice", "Please upload the PDF first.", "warning"); return; }
             btn.disabled = true; btn.innerText = "Publishing...";
             
             const selectedSubject = document.getElementById('driveBookSubjectSelect').value;
@@ -524,7 +527,7 @@
                 body: JSON.stringify(payload) 
             });
             
-            showToast("Published", "Book is live!", "success"); 
+            showToast("Published", "Book is now live!", "success"); 
             await loadBooks();
             
             document.getElementById('driveBookTitle').value = '';
@@ -638,14 +641,13 @@
             });
         }
 
-        // --- USERS & DOWNLOAD CONTROL ---
+        // --- USERS & DOWNLOADS APPROVALS ---
        async function loadUsers() {
             try {
                 const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminGetUsers&t=${Date.now()}`); 
                 const data = await res.json();
                 
-                const pCount = document.getElementById('pendingCount');
-                if (pCount) pCount.innerText = data.pending ? data.pending.length : 0;
+                document.getElementById('pendingCount').innerText = data.pending ? data.pending.length : 0;
                 
                 const pB = document.getElementById('pendingTableBody'); 
                 const aB = document.getElementById('activeTableBody');
