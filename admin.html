@@ -42,57 +42,21 @@
         
         /* THEMED PROGRESS BAR */
         .progress-wrapper { width: 100%; margin-top: 12px; display: none; }
-        .progress-bar-bg { background: #0f172a; border: 1px solid var(--card-border); border-radius: 8px; height: 12px; width: 100%; overflow: hidden; position: relative; }
-        .progress-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); height: 100%; width: 0%; transition: width 0.2s ease; border-radius: 8px; box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
-        .progress-text { color: #cbd5e1; font-size: 0.7rem; font-weight: 600; margin-top: 6px; text-align: center; }
+        .progress-bar-bg { background: #0f172a; border: 1px solid var(--card-border); border-radius: 8px; height: 10px; width: 100%; overflow: hidden; position: relative; }
+        .progress-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); height: 100%; width: 0%; transition: width 0.15s ease; border-radius: 8px; box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+        .progress-text { color: #94a3b8; font-size: 0.72rem; font-weight: 600; margin-top: 6px; text-align: center; }
 
-                .admin-table-container { 
-            background: #070a10; 
-            border: 1px solid var(--card-border); 
-            border-radius: 10px; 
-            overflow-x: auto; 
-            margin-top: 1rem; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4); 
-        }
-        .admin-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 0.78rem; 
-            text-align: left; 
-            white-space: nowrap;
-        }
-        .admin-table th { 
-            background: #0b0f17; 
-            padding: 10px 14px; 
-            color: #64748b; 
-            font-size: 0.68rem; 
-            text-transform: uppercase; 
-            border-bottom: 1px solid #1e2634; 
-            letter-spacing: 0.8px; 
-            font-weight: 700; 
-        }
-        .admin-table td { 
-            padding: 9px 14px; 
-            border-bottom: 1px solid #111622; 
-            color: #cbd5e1; 
-            vertical-align: middle;
-        }
-        .admin-table tr:hover td { 
-            background: rgba(56, 189, 248, 0.03); 
-        }
+        /* AESTHETIC COMPACT TABLES */
+        .admin-table-container { background: #070a10; border: 1px solid var(--card-border); border-radius: 10px; overflow-x: auto; margin-top: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; text-align: left; }
+        .admin-table th { background: #0b0f17; padding: 10px 14px; color: var(--text-muted); font-size: 0.68rem; text-transform: uppercase; border-bottom: 1px solid #1e2634; letter-spacing: 0.8px; font-weight: 700; }
+        .admin-table td { padding: 10px 14px; border-bottom: 1px solid #111622; color: #cbd5e1; vertical-align: middle; }
+        .admin-table tr:hover td { background: rgba(56, 189, 248, 0.03); }
+        
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+        .status-subj { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); color: #38bdf8; }
 
-        /* Sleek Status Badges */
-        .badge-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-        }
+        .badge-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
         .badge-approved { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
         .badge-restricted { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
         .badge-dl-allow { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); }
@@ -102,28 +66,17 @@
         .badge-event-dl { color: #f59e0b; font-weight: 600; font-size: 0.72rem; }
         .badge-event-offline { color: #64748b; font-size: 0.72rem; }
 
-        /* Compact Action Buttons */
-        .btn-ghost-red, .btn-ghost-green, .btn-ghost-cyan {
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            border: 1px solid transparent;
-        }
-        .btn-ghost-red { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171; }
+        .btn-ghost-red { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 5px 10px; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; }
         .btn-ghost-red:hover { background: rgba(239, 68, 68, 0.25); color: #fff; }
 
-        .btn-ghost-green { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: #4ade80; }
+        .btn-ghost-green { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #22c55e; padding: 5px 10px; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; }
         .btn-ghost-green:hover { background: rgba(34, 197, 94, 0.25); color: #fff; }
 
-        .btn-ghost-cyan { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); color: #38bdf8; }
+        .btn-ghost-cyan { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 5px 10px; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; }
         .btn-ghost-cyan:hover { background: rgba(56, 189, 248, 0.25); color: #fff; }
+
+        .btn-action-clear-logs { background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;}
+        .btn-action-clear-logs:hover { background: rgba(239, 68, 68, 0.15); }
     </style>
 </head>
 <body>
@@ -131,7 +84,7 @@
     <div class="bg-hex-grid"></div>
     <div class="bg-glow-bottom"></div>
 
-    <!-- CONFIRM MODAL -->
+    <!-- CUSTOM CONFIRM MODAL -->
     <div id="customConfirmModal" class="admin-lock-overlay" style="display:none; z-index: 100000;">
         <div class="admin-lock-card" style="padding: 2rem; width: 340px; text-align: left;">
             <h3 style="color:#fff; margin-bottom:10px; font-size:1.15rem; display: flex; align-items: center; gap: 8px;">
@@ -145,7 +98,7 @@
         </div>
     </div>
 
-    <!-- PROMPT MODAL -->
+    <!-- CUSTOM PROMPT MODAL -->
     <div id="customPromptModal" class="admin-lock-overlay" style="display:none; z-index: 100000;">
         <div class="admin-lock-card" style="padding: 2rem; width: 350px; text-align: left;">
             <h3 style="color:#fff; margin-bottom:10px; font-size:1.15rem;"><i class="fa-solid fa-tags" style="color:#38bdf8; margin-right:8px;"></i> <span id="promptTitle">Enter Information</span></h3>
@@ -158,7 +111,7 @@
         </div>
     </div>
 
-    <!-- ADMIN LOGIN -->
+    <!-- PASSCODE CHECKPOINT -->
     <div id="adminLockModal" class="admin-lock-overlay">
         <div class="admin-lock-card">
             <i class="fa-solid fa-shield-halved" style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 1rem;"></i>
@@ -172,7 +125,7 @@
     </div>
 
     <main class="admin-page">
-        <!-- TABS -->
+        <!-- MAIN TABS -->
         <div class="admin-tabs">
             <button class="admin-tab-btn active" onclick="switchTab('booksTab', this)"><i class="fa-solid fa-book-medical"></i> Book Manager</button>
             <button class="admin-tab-btn" onclick="switchTab('usersTab', this)"><i class="fa-solid fa-users-gear"></i> User Approvals & Downloads</button>
@@ -195,24 +148,23 @@
                 <!-- SUB-MODE 1: AUTO DRIVE UPLOAD -->
                 <div id="submodeDriveContainer">
                     <div class="upload-grid-2">
-                        <div class="custom-upload-box" id="pdfUploadBox">
+                        <div class="custom-upload-box">
                             <h4 style="color:#fff; font-size: 0.9rem; margin-bottom:4px;">Upload Book PDF</h4>
                             <p style="color: var(--text-muted); font-size: 0.74rem;">Permanent embedded link will be generated via Drive.</p>
                             <input type="file" id="pdfFileInput" accept="application/pdf" style="display: none;" onchange="handleFileSelected('pdf')">
-                            
                             <div style="margin-top:10px;">
                                 <button type="button" class="file-select-btn" onclick="document.getElementById('pdfFileInput').click()"><i class="fa-solid fa-folder-open"></i> Choose PDF</button>
                                 <button type="button" id="uploadPdfBtn" class="btn btn-blue" onclick="uploadPdfToDrive()" disabled>Upload to Drive</button>
                             </div>
-                            
-                            <!-- THEMED UPLOAD PROGRESS BAR -->
+
+                            <!-- THEMED PROGRESS BAR -->
                             <div id="pdfProgressContainer" class="progress-wrapper">
                                 <div class="progress-bar-bg">
                                     <div id="pdfProgressBar" class="progress-bar-fill"></div>
                                 </div>
-                                <div id="pdfProgressText" class="progress-text"><i class="fa-solid fa-cloud-arrow-up"></i> Uploading: 0.00 MB / 0.00 MB (0%)</div>
+                                <div id="pdfProgressText" class="progress-text">Uploading: 0.00 MB / 0.00 MB (0%)</div>
                             </div>
-                            
+
                             <div id="pdfBadgeContainer"></div>
                         </div>
                         <div class="custom-upload-box">
@@ -249,7 +201,7 @@
                     </form>
                 </div>
 
-                <!-- SUB-MODE 2: MANUAL URL LINKING -->
+                <!-- SUB-MODE 2: MANUAL URL LINK -->
                 <div id="submodeManualContainer" style="display: none;">
                     <form onsubmit="event.preventDefault(); publishBookManualMode();">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
@@ -277,6 +229,7 @@
                                 <label>5. Download Link (PDF Download URL)</label>
                                 <input type="text" id="manBookDownloadUrl" class="form-input" placeholder="https://example.com/book.pdf" required>
                             </div>
+                            
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>6. Chapters Summary (Optional)</label>
                                 <input type="text" id="manBookChapters" class="form-input" placeholder="Chapter 1, Chapter 2... Includes all chapters.">
@@ -318,13 +271,13 @@
             </div>
         </section>
 
-        <!-- 3. SUBJECTS -->
+        <!-- 3. SUBJECTS TAB -->
         <section id="subjectsTab" class="admin-section">
             <div class="card-admin-box">
                 <div class="card-admin-box-header"><h3><i class="fa-solid fa-folder-plus"></i> Create New Sublist</h3></div>
                 <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 12px;">This sublist will automatically appear in the portal's left sidebar for students to filter books.</p>
                 <form onsubmit="event.preventDefault(); addSubjectCategory();" style="display: flex; gap: 10px; max-width: 450px;">
-                    <input type="text" id="newSubjectName" class="form-input" placeholder="e.g. AI, Sanskrit..." required>
+                    <input type="text" id="newSubjectName" class="form-input" placeholder="e.g. Computer, AI, Sanskrit..." required>
                     <button type="submit" class="btn btn-blue"><i class="fa-solid fa-plus"></i> Create</button>
                 </form>
             </div>
@@ -334,7 +287,7 @@
             </div>
         </section>
 
-        <!-- 4. LOGS & DL MONITOR -->
+        <!-- 4. LOGS TAB -->
         <section id="logsTab" class="admin-section">
             <div class="card-admin-box">
                 <div class="card-admin-box-header">
@@ -352,27 +305,29 @@
     </main>
 
     <script>
+        // NOTE: Make sure this URL matches your newly deployed Code.gs Web App URL
         const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
         
         let autoPdfViewLink = "";
         let autoPdfDownloadLink = "";
         let autoCoverLink = "";
-        
-        // Subject to Aesthetic Color Mapping
-        function getSubjectColor(subject) {
-            const s = subject.toLowerCase();
-            if (s.includes('math')) return '#ea580c'; // Orange
-            if (s.includes('sci')) return '#16a34a';  // Green
-            if (s.includes('eng')) return '#0284c7';  // Blue
-            if (s.includes('sst') || s.includes('social')) return '#9333ea'; // Purple
-            if (s.includes('hind')) return '#dc2626'; // Red
-            if (s.includes('comp') || s.includes('it')) return '#0d9488'; // Teal
-            return '#38bdf8'; // Default Light Blue
-        }
 
+        // Function ensuring customized tag colors according to subjects (Computer, Maths, Science, etc.)
+        function getSubjectColor(subject) {
+            const s = (subject || '').toLowerCase();
+            if (s.includes('math')) return '#ea580c';     // Math Orange
+            if (s.includes('sci')) return '#16a34a';      // Science Green
+            if (s.includes('eng')) return '#0284c7';      // English Blue
+            if (s.includes('sst') || s.includes('social')) return '#9333ea'; // SST Purple
+            if (s.includes('hind')) return '#dc2626';     // Hindi Red
+            if (s.includes('comp') || s.includes('it')) return '#0d9488';   // Computer Teal
+            return '#38bdf8';                             // Default Accent
+        }
+        
+        // Custom Modal Logic
         let _confirmCallback = null;
         let _promptCallback = null;
-        
+
         function openCustomConfirm(title, message, callback) {
             document.getElementById('confirmTitle').innerText = title;
             document.getElementById('confirmMsg').innerText = message;
@@ -429,16 +384,16 @@
             document.getElementById('btnModeDrive').classList.toggle('active', mode === 'drive');
             document.getElementById('btnModeManual').classList.toggle('active', mode === 'manual');
         }
-        
+
         function loadAllAdminData() { loadSubjects(); loadBooks(); loadUsers(); loadLogs(); }
 
+        // --- GOOGLE DRIVE SAFE UPLOADER (NO CORS ERRORS) ---
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader(); reader.readAsDataURL(file);
                 reader.onload = () => resolve(reader.result.split(',')[1]); reader.onerror = error => reject(error);
             });
         }
-
         function handleFileSelected(type) {
             const file = document.getElementById(type + 'FileInput').files[0];
             if (file) {
@@ -447,11 +402,9 @@
             }
         }
         
-        // XMLHTTPREQUEST FOR ACCURATE PROGRESS BAR UPLOADS
         async function uploadPdfToDrive() {
             const file = document.getElementById('pdfFileInput').files[0];
             if (!file) return;
-
             const btn = document.getElementById('uploadPdfBtn');
             const progressContainer = document.getElementById('pdfProgressContainer');
             const progressBar = document.getElementById('pdfProgressBar');
@@ -460,77 +413,53 @@
             btn.disabled = true; 
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading to Drive...';
             progressContainer.style.display = 'block';
-            progressBar.style.width = '0%';
-            
-            // Calculate file size purely for frontend display
-            const fileMB = (file.size / (1024 * 1024)).toFixed(2);
+            progressBar.style.width = '15%';
+
+            const totalMB = (file.size / (1024 * 1024)).toFixed(2);
+            progressText.innerHTML = `Encoding: 0.00 MB / ${totalMB} MB (15%)`;
 
             try {
                 const name = file.name.replace(/\s+/g, '_'); 
                 const base64 = await fileToBase64(file);
                 
-                const payload = JSON.stringify({ 
-                    action: 'uploadToDrive', 
-                    fileName: name, 
-                    fileCategory: 'pdf', 
-                    contentType: 'application/pdf', 
-                    base64Content: base64 
+                progressBar.style.width = '45%';
+                progressText.innerHTML = `Uploading to Google Drive: ${(totalMB * 0.45).toFixed(2)} MB / ${totalMB} MB (45%)`;
+
+                // Uses simple plain text fetch payload to avoid CORS preflight options blockage
+                const response = await fetch(GOOGLE_APP_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ 
+                        action: 'uploadToDrive', 
+                        fileName: name, 
+                        fileCategory: 'pdf', 
+                        contentType: 'application/pdf', 
+                        base64Content: base64 
+                    }) 
                 });
-
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", GOOGLE_APP_SCRIPT_URL, true);
-                xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-
-                // Progress Tracker
-                xhr.upload.onprogress = function(e) {
-                    if (e.lengthComputable) {
-                        const percent = Math.round((e.loaded / e.total) * 100);
-                        // Derived MBs matching actual file size for user readability
-                        const currentMB = ((e.loaded / e.total) * fileMB).toFixed(2);
-                        
-                        progressBar.style.width = percent + '%';
-                        progressText.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Uploading: ${currentMB} MB / ${fileMB} MB (${percent}%)`;
-                    }
-                };
-
-                xhr.onload = function() {
-                    btn.innerHTML = 'Upload to Drive';
-                    if (xhr.status === 200) {
-                        const result = JSON.parse(xhr.responseText);
-                        if (result.success) {
-                            autoPdfViewLink = result.viewUrl;
-                            autoPdfDownloadLink = result.downloadUrl;
-                            document.getElementById('driveBookTitle').value = file.name.replace('.pdf', '').replace(/_/g, ' ');
-                            
-                            progressText.innerHTML = `<i class="fa-solid fa-check"></i> 100% Uploaded`;
-                            document.getElementById('pdfBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-check"></i> Connected to Drive</div>`;
-                            document.getElementById('drivePublishBtn').disabled = false; 
-                            document.getElementById('drivePublishBtn').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Publish Book Card to Portal';
-                            
-                            showToast("Success", "PDF uploaded securely to Google Drive.", "success");
-                        } else {
-                            progressContainer.style.display = 'none';
-                            showToast("Error", result.message || "Failed to upload to Drive.", "error");
-                        }
-                    } else {
-                        progressContainer.style.display = 'none';
-                        showToast("Error", "Server returned an error.", "error");
-                    }
-                };
-
-                xhr.onerror = function() {
-                    btn.innerHTML = 'Upload to Drive';
+                
+                progressBar.style.width = '90%';
+                const result = await response.json();
+                
+                if (result.success) {
+                    progressBar.style.width = '100%';
+                    progressText.innerHTML = `<i class="fa-solid fa-check"></i> Upload Completed (${totalMB} MB)`;
+                    
+                    autoPdfViewLink = result.viewUrl;
+                    autoPdfDownloadLink = result.downloadUrl;
+                    document.getElementById('driveBookTitle').value = file.name.replace('.pdf', '').replace(/_/g, ' ');
+                    document.getElementById('pdfBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-circle-check"></i> Connected to Google Drive</div>`;
+                    document.getElementById('drivePublishBtn').disabled = false; 
+                    document.getElementById('drivePublishBtn').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Publish Book Card to Portal';
+                    showToast("Success", "PDF uploaded securely to Google Drive.", "success");
+                } else {
                     progressContainer.style.display = 'none';
-                    showToast("Error", "Network connectivity failed.", "error");
-                };
-
-                xhr.send(payload);
-
+                    showToast("Error", result.message || "Failed to upload to Drive.", "error");
+                }
             } catch(e) { 
-                btn.innerHTML = 'Upload to Drive';
                 progressContainer.style.display = 'none';
-                showToast("Error", "Initialization failed.", "error"); 
+                showToast("Connection Error", "Could not reach database. Check network.", "error"); 
             }
+            btn.innerHTML = 'Upload to Drive';
         }
         
         async function uploadCoverToDrive() {
@@ -544,55 +473,67 @@
                 
                 const response = await fetch(GOOGLE_APP_SCRIPT_URL, { 
                     method: 'POST', 
-                    body: JSON.stringify({ action: 'uploadToDrive', fileName: name, fileCategory: 'cover', contentType: file.type, base64Content: base64 }) 
+                    body: JSON.stringify({ 
+                        action: 'uploadToDrive', 
+                        fileName: name, 
+                        fileCategory: 'cover', 
+                        contentType: file.type, 
+                        base64Content: base64 
+                    }) 
                 });
                 const result = await response.json();
                 
                 if(result.success) {
+                    // Extract Direct Thumbnail to ensure clean rendering (No broken HTML previews!)
                     const fileId = result.downloadUrl.split('id=')[1];
                     autoCoverLink = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
                     
-                    document.getElementById('coverBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-image"></i> Graphic Attached</div>`;
-                    showToast("Success", "Cover image uploaded successfully.", "success");
+                    document.getElementById('coverBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-circle-check"></i> Cover Attached</div>`;
+                    showToast("Success", "Cover graphic uploaded.", "success");
                 } else {
-                    showToast("Error", result.message || "Failed to upload graphic.", "error");
+                    showToast("Error", result.message || "Failed to upload cover.", "error");
                 }
-            } catch(e) {}
+            } catch(e) { showToast("Error", "Could not connect to Drive.", "error"); }
             btn.innerHTML = 'Upload Cover';
         }
 
+        // --- BOOK DB MANAGER ---
         async function publishBookDriveMode() {
             const btn = document.getElementById('drivePublishBtn');
-            if (!autoPdfViewLink) { showToast("Notice", "Please upload the PDF first.", "warning"); return; }
+            if (!autoPdfViewLink) { showToast("Notice", "Upload PDF first.", "warning"); return; }
             btn.disabled = true; btn.innerText = "Publishing...";
             
             const selectedSubject = document.getElementById('driveBookSubjectSelect').value;
-            const generatedColor = getSubjectColor(selectedSubject);
+            const tagColor = getSubjectColor(selectedSubject);
 
             const payload = { 
                 action: 'adminSaveBook', 
                 title: document.getElementById('driveBookTitle').value, 
                 subject: selectedSubject, 
                 desc: document.getElementById('driveBookDesc').value, 
-                tagColor: generatedColor,
+                tagColor: tagColor,
                 coverColor: autoCoverLink || 'linear-gradient(to bottom right, #0ea5e9, #2563eb)', 
                 previewUrl: autoPdfViewLink, 
                 downloadUrl: autoPdfDownloadLink, 
                 chapters: 'Complete Textbook' 
             };
             
-            await fetch(GOOGLE_APP_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-            showToast("Published", "Book has been added to the portal.", "success"); 
-            await loadBooks(); 
+            await fetch(GOOGLE_APP_SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload) 
+            });
             
-            document.getElementById('driveBookTitle').value = ''; 
+            showToast("Published", "Book is live!", "success"); 
+            await loadBooks();
+            
+            document.getElementById('driveBookTitle').value = '';
             document.getElementById('driveBookDesc').value = '';
             document.getElementById('pdfProgressContainer').style.display = 'none';
-            btn.disabled = true; 
-            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF First to Publish Card';
             document.getElementById('pdfBadgeContainer').innerHTML = '';
             document.getElementById('coverBadgeContainer').innerHTML = '';
             autoPdfViewLink = ""; autoPdfDownloadLink = ""; autoCoverLink = "";
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF First to Publish Card';
         }
 
         async function publishBookManualMode() {
@@ -600,24 +541,33 @@
             btn.disabled = true; btn.innerText = "Publishing...";
             
             const selectedSubject = document.getElementById('manBookSubjectSelect').value;
-            const generatedColor = getSubjectColor(selectedSubject);
+            const tagColor = getSubjectColor(selectedSubject);
 
             const payload = { 
                 action: 'adminSaveBook', 
                 title: document.getElementById('manBookTitle').value, 
                 subject: selectedSubject, 
                 desc: document.getElementById('manBookDesc').value, 
-                tagColor: generatedColor,
+                tagColor: tagColor,
                 coverColor: 'linear-gradient(to bottom right, #16a34a, #047857)', 
                 previewUrl: document.getElementById('manBookPreviewUrl').value, 
-                downloadUrl: document.getElementById('manBookDownloadUrl').value,
+                downloadUrl: document.getElementById('manBookDownloadUrl').value, 
                 chapters: document.getElementById('manBookChapters').value || 'Complete Chapters'
             };
-            await fetch(GOOGLE_APP_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-            showToast("Success", "Linked card is live!", "success"); 
-            await loadBooks(); 
             
-            document.getElementById('manBookTitle').value = ''; document.getElementById('manBookDesc').value = ''; document.getElementById('manBookPreviewUrl').value = ''; document.getElementById('manBookDownloadUrl').value = '';
+            await fetch(GOOGLE_APP_SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload) 
+            });
+            
+            showToast("Published", "Linked card is live!", "success"); 
+            await loadBooks();
+            
+            document.getElementById('manBookTitle').value = '';
+            document.getElementById('manBookDesc').value = '';
+            document.getElementById('manBookPreviewUrl').value = '';
+            document.getElementById('manBookDownloadUrl').value = '';
             btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-link"></i> Publish Book Card by Link';
         }
 
@@ -625,78 +575,107 @@
             try {
                 const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=getPublicBooks&t=${Date.now()}`); 
                 const data = await res.json();
-                const tb = document.getElementById('booksTableBody'); if (!tb) return;
-                
-                if (!data.books || data.books.length === 0) { tb.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No books published yet</td></tr>'; return; }
+                const tb = document.getElementById('booksTableBody'); 
+                if (!tb) return;
                 tb.innerHTML = '';
-                data.books.forEach(b => tb.innerHTML += `<tr><td><b style="color:#fff;">${b.title}</b></td><td><span class="status-badge status-subj">${b.subject}</span></td><td><a href="${b.previewUrl}" target="_blank" class="btn-ghost-cyan"><i class="fa-solid fa-link"></i> Open Link</a></td><td style="width:70px;"><button type="button" class="btn-ghost-red" onclick="triggerDeleteBook('${b.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`);
-            } catch(e) {}
-        }
-        function triggerDeleteBook(id) { openCustomConfirm("Delete Book", "Are you sure you want to permanently delete this book card from the portal?", async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteBook&id=${id}`); showToast("Deleted", "Book card removed.", "success"); loadBooks(); }); }
+                
+                if (!data.books || data.books.length === 0) { 
+                    tb.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No books published yet</td></tr>'; 
+                    return; 
+                }
 
+                data.books.forEach(b => tb.innerHTML += `<tr>
+                    <td><b style="color:#fff;">${b.title}</b></td>
+                    <td><span class="status-badge status-subj">${b.subject}</span></td>
+                    <td><a href="${b.previewUrl}" target="_blank" class="btn-ghost-cyan"><i class="fa-solid fa-link"></i> Open Link</a></td>
+                    <td style="width:70px;"><button type="button" class="btn-ghost-red" onclick="triggerDeleteBook('${b.id}')"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>`);
+            } catch(e) { console.error("Admin Load Books Error:", e); }
+        }
+
+        function triggerDeleteBook(id) {
+            openCustomConfirm("Delete Book", "Are you sure you want to permanently delete this book card from the portal?", async () => {
+                await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteBook&id=${id}`);
+                showToast("Deleted", "Book card removed.", "success"); loadBooks();
+            });
+        }
+
+        // --- SUBJECTS MANAGER ---
         async function loadSubjects() {
             try {
                 const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=getPublicSubjects&t=${Date.now()}`); 
                 const data = await res.json();
-                const tb = document.getElementById('subjectsTableBody'); const driveSel = document.getElementById('driveBookSubjectSelect'); const manSel = document.getElementById('manBookSubjectSelect');
-                if (driveSel) driveSel.innerHTML = ''; if (manSel) manSel.innerHTML = ''; if (tb) tb.innerHTML = '';
+                const tb = document.getElementById('subjectsTableBody'); 
+                const driveSel = document.getElementById('driveBookSubjectSelect'); 
+                const manSel = document.getElementById('manBookSubjectSelect');
+                
+                if (driveSel) driveSel.innerHTML = ''; 
+                if (manSel) manSel.innerHTML = ''; 
+                if (tb) tb.innerHTML = '';
+                
                 data.subjects.forEach(s => {
                     if (driveSel) driveSel.innerHTML += `<option value="${s}">${s}</option>`; 
                     if (manSel) manSel.innerHTML += `<option value="${s}">${s}</option>`;
                     if (tb) tb.innerHTML += `<tr><td style="color:#fff;"><b>${s}</b></td><td style="width:70px;"><button type="button" class="btn-ghost-red" onclick="triggerDeleteSubject('${s}')"><i class="fa-solid fa-trash"></i></button></td></tr>`;
                 });
-            } catch(e) {}
+            } catch(e) { console.error("Admin Load Subjects Error:", e); }
+        }
+
+        function triggerCustomPrompt() {
+            openCustomPrompt("New Sublist", "Add a category to the filter sidebar.", "e.g. Computer, AI, Sanskrit...", async (val) => {
+                if(!val || !val.trim()) return;
+                await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSaveSubject&name=${encodeURIComponent(val)}`);
+                showToast("Success", "Sublist added.", "success"); loadSubjects();
+            });
         }
         
-        function triggerCustomPrompt() { openCustomPrompt("New Sublist", "Add a category to the filter sidebar.", "e.g. AI, Sanskrit...", async (val) => { if(!val || !val.trim()) return; await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSaveSubject&name=${encodeURIComponent(val)}`); showToast("Success", "Sublist added.", "success"); loadSubjects(); }); }
-        function addSubjectCategory() { const val = document.getElementById('newSubjectName').value; document.getElementById('newSubjectName').value = ''; if (val) triggerCustomPrompt(val); }
-        function triggerDeleteSubject(name) { openCustomConfirm("Delete Subject", `Are you sure you want to delete the filter sublist "${name}"?`, async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteSubject&name=${encodeURIComponent(name)}`); showToast("Deleted", "Subject removed.", "success"); loadSubjects(); }); }
+        function addSubjectCategory() { const val = document.getElementById('newSubjectName').value; document.getElementById('newSubjectName').value = ''; if (val) { triggerCustomPrompt(val); } }
 
-        async function loadUsers() {
+        function triggerDeleteSubject(name) {
+            openCustomConfirm("Delete Subject", `Are you sure you want to delete the filter sublist "${name}"?`, async () => {
+                await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteSubject&name=${encodeURIComponent(name)}`);
+                showToast("Deleted", `Subject removed.`, "success"); loadSubjects();
+            });
+        }
+
+        // --- USERS & DOWNLOAD CONTROL ---
+       async function loadUsers() {
             try {
                 const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminGetUsers&t=${Date.now()}`); 
                 const data = await res.json();
                 
-                document.getElementById('pendingCount').innerText = data.pending ? data.pending.length : 0;
+                const pCount = document.getElementById('pendingCount');
+                if (pCount) pCount.innerText = data.pending ? data.pending.length : 0;
                 
                 const pB = document.getElementById('pendingTableBody'); 
                 const aB = document.getElementById('activeTableBody');
                 
-                if (pB) {
-                    pB.innerHTML = (!data.pending || data.pending.length === 0) 
-                        ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:1.5rem;">No pending approvals</td></tr>' 
-                        : '';
-                    data.pending.forEach(u => {
-                        pB.innerHTML += `<tr>
-                            <td><b style="color:#fff;">${u.name}</b></td>
-                            <td>${u.email}</td>
-                            <td>${new Date(u.timestamp).toLocaleDateString()}</td>
-                            <td>
-                                <div style="display:flex; gap:6px;">
-                                    <button type="button" class="btn-ghost-green" onclick="setStatus('${u.email}','Approved')"><i class="fa-solid fa-check"></i> Approve</button> 
-                                    <button type="button" class="btn-ghost-red" onclick="setStatus('${u.email}','Restricted')"><i class="fa-solid fa-xmark"></i> Reject</button>
-                                </div>
-                            </td>
-                        </tr>`;
-                    });
+                if (pB) pB.innerHTML = (!data.pending || data.pending.length === 0) ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No pending approvals</td></tr>' : ''; 
+                if (aB) aB.innerHTML = '';
+                
+                if (data.pending && pB) {
+                    data.pending.forEach(u => pB.innerHTML += `<tr>
+                        <td><b style="color:#fff;">${u.name}</b></td>
+                        <td>${u.email}</td><td>${new Date(u.timestamp).toLocaleDateString()}</td>
+                        <td><div style="display:flex; gap:6px;">
+                            <button type="button" class="btn-ghost-green" onclick="setStatus('${u.email}','Approved')"><i class="fa-solid fa-check"></i> Approve</button> 
+                            <button type="button" class="btn-ghost-red" onclick="setStatus('${u.email}','Restricted')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                        </div></td>
+                    </tr>`);
                 }
                 
                 const combined = [...(data.approved || []), ...(data.restricted || [])];
                 if (aB) {
-                    aB.innerHTML = (!combined.length) 
-                        ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:1.5rem;">No users found</td></tr>' 
-                        : '';
+                    aB.innerHTML = (!combined.length) ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No users found</td></tr>' : '';
                     combined.forEach(u => {
                         const isApproved = u.status.toLowerCase() === 'approved';
                         const dlAllowed = (u.canDownload === "Yes" || u.canDownload === true);
-                        
+
                         aB.innerHTML += `<tr>
-                            <td>
-                                <b style="color:#fff;">${u.name}</b>
-                            </td>
+                            <td><b style="color:#fff;">${u.name}</b></td>
                             <td>
                                 <div>${u.email}</div>
-                                <span style="font-size:0.68rem; color:#64748b;">Downloads: <b style="color:#38bdf8;">${u.dlCount || 0}</b></span>
+                                <span style="font-size:0.68rem; color:#64748b;">Downloads Count: <b style="color:#38bdf8;">${u.dlCount || 0}</b></span>
                             </td>
                             <td>
                                 <div style="display:flex; gap:6px; align-items:center;">
@@ -723,14 +702,17 @@
                         </tr>`;
                     });
                 }
-            } catch(e) {
-                console.error("Load users error", e);
-            }
+            } catch(e) { console.error("Admin Load Users Error:", e); }
         }
-        
-        async function setStatus(email, s) { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetStatus&email=${encodeURIComponent(email)}&status=${s}`); loadUsers(); }
-        async function setDownloadAccess(email, allowFlag) { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetDownload`, { method: 'POST', body: JSON.stringify({ action: 'adminSetDownload', email: email, allow: allowFlag }) }); showToast("Updated", allowFlag ? "User download access restored." : "User download access blocked. They can only view PDFs.", "success"); loadUsers(); }
 
+        async function setStatus(e, s) { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetStatus&email=${encodeURIComponent(e)}&status=${s}`); loadUsers(); }
+        async function setDownloadAccess(email, allow) {
+            await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetDownload`, { method: 'POST', body: JSON.stringify({ action: 'adminSetDownload', email: email, allow: allow }) });
+            showToast("Updated", allow ? "User download access enabled." : "User download access blocked.", "success");
+            loadUsers();
+        }
+
+        // --- LOGS ---
         async function loadLogs() {
             try {
                 const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminGetLogs&t=${Date.now()}`); 
@@ -738,10 +720,8 @@
                 const tb = document.getElementById('logsTableBody'); 
                 if (!tb) return;
                 
-                tb.innerHTML = (!data.logs || data.logs.length === 0) 
-                    ? '<tr><td colspan="6" style="text-align:center; color:#64748b; padding:2rem;">No logs recorded</td></tr>' 
-                    : '';
-
+                tb.innerHTML = (!data.logs || data.logs.length === 0) ? '<tr><td colspan="6" style="text-align:center; color:#64748b; padding:2rem;">No logs recorded</td></tr>' : '';
+                
                 if (data.logs) {
                     data.logs.forEach(l => {
                         const statusStr = (l.status || '').toLowerCase();
@@ -750,7 +730,7 @@
                         if (statusStr.includes('online')) {
                             eventBadge = `<span class="badge-event-online"><i class="fa-solid fa-circle" style="font-size: 6px; vertical-align: middle;"></i> Online</span>`;
                         } else if (statusStr.includes('download')) {
-                            eventBadge = `<span class="badge-event-dl"><i class="fa-solid fa-arrow-down"></i> Download</span>`;
+                            eventBadge = `<span class="badge-event-dl"><i class="fa-solid fa-arrow-down"></i> Download Trigger</span>`;
                         }
 
                         tb.innerHTML += `<tr>
@@ -763,11 +743,15 @@
                         </tr>`;
                     });
                 }
-            } catch(e) {
-                console.error("Load logs error", e);
-            }
+            } catch(e) { console.error("Admin Load Logs Error:", e); }
         }
-        function triggerClearLogs() { openCustomConfirm("Clear Database Logs", "WARNING: This permanently wipes all tracked IP and session logs. Continue?", async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminClearLogs`); showToast("Wiped", "All session logs have been permanently deleted.", "success"); loadLogs(); }); }
+
+        function triggerClearLogs() {
+            openCustomConfirm("Clear Database Logs", "WARNING: This permanently wipes all tracked IP and session logs. Continue?", async () => {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminClearLogs`); const data = await res.json();
+                if(data.success) { showToast("Wiped", "All session logs have been permanently deleted.", "success"); loadLogs(); }
+            });
+        }
     </script>
 </body>
 </html>
