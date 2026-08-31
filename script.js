@@ -1,7 +1,7 @@
 const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
 
 // =========================================================
-// 1. DYNAMIC BOOKS (Starts empty, populated strictly by DB)
+// 1. DYNAMIC BOOKS (Empty by default, populated by Database)
 // =========================================================
 let allPortalBooks = [];
 let activeSubjectFilter = "All";
@@ -123,7 +123,7 @@ function openPdfDirect(url) {
         return;
     }
     
-    // Natively opens Google Drive /preview link in new tab without "too large" popups
+    // Natively opens Google Drive /preview link in new tab without "too large" errors
     showToast("Launching Reader", "Opening document stream in new tab...", "success", 2000);
     window.open(url, '_blank');
 }
@@ -304,7 +304,7 @@ function initSearchBar() {
             const isImageUrl = book.coverColor && (book.coverColor.startsWith('http') || book.coverColor.startsWith('data:'));
             const coverStyle = isImageUrl 
                 ? `background-image: url('${book.coverColor}'); background-size: cover;` 
-                : `background: ${book.coverColor || '#0284c7'}; color: ${book.coverText || '#fff'};`;
+                : `background: ${book.coverColor || '#0ea5e9'}; color: ${book.coverText || '#fff'};`;
 
             grid.insertAdjacentHTML('beforeend', `
                 <div class="card" data-id="${book.id}">
