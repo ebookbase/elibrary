@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 9 E-Books | DIGITAL PORTAL</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Background Effects -->
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap" style="color: #38bdf8; font-size: 25px;"></i>
+                <span>E-Books</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://learntopper.in">StudyRoom</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search for Books, e.g., Maths, Science">
+            </div>
+            <button class="btn btn-blue" onclick="window.location.href='login.html'">Log In</button>
+            <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="hero">
+        <h1>EXPLORE YOUR CLASS 9 DIGITAL PORTAL</h1>
+        <p>Welcome to the Class 9 Books portal digital - Class 9 students on GitHub Pages.</p>
+        <br>
+        <h2>FEATURED CLASS 9 EBOOKS</h2>
+        <p class="sub-heading">Browse and access free educational materials hosted on GitHub Pages.</p>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <!-- Sidebar Filter -->
+        <aside class="sidebar">
+            <h3>FILTER BY SUBJECT</h3>
+            <ul id="subject-filter">
+                <li class="active" data-subject="All">All Books</li>
+                <li data-subject="Maths">Maths</li>
+                <li data-subject="Science">Science</li>
+                <li data-subject="English">English</li>
+                <li data-subject="SST">SST</li>
+                <li data-subject="Hindi">Hindi</li>
+                <li data-subject="IT">Computer</li>
+            </ul>
+        </aside>
+
+        <!-- Book Grid -->
+        <section class="book-grid" id="book-grid">
+            <!-- Injected dynamically by JavaScript -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer">
+            &copy; 2026 Class 9 E-Library. All rights reserved. Belongs to Owner.
+        </div>
+    </footer>
+
+    <!-- Modal Form UI Base Template -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body">
+                <div class="modal-image" id="modal-img"></div>
+                <div class="modal-info">
+                    <h2 id="modal-title">Title</h2>
+                    <p class="modal-desc" id="modal-desc">Description</p>
+                    <div class="modal-tags" id="modal-tags">
+                        <!-- tags injected via js -->
+                    </div>
+                    
+                    <div class="chapter-list">
+                        <h4>Chapter List</h4>
+                        <p id="modal-chapters">Chapters info...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline-wide"> View PDF (New Tab) </button>
+                <button class="btn btn-outline-wide"> Download PDF (Offline Access) </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

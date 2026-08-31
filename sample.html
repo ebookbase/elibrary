@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Papers & CCT Tests | Class 9 Digital Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================================================== */
+        /* SAMPLE PAPERS & CCT DASHBOARD STYLING              */
+        /* ================================================== */
+        .sample-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .sample-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .sample-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 40%, var(--btn-blue-accent) 100%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .sample-hero p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* CBSE CCT Highlight Banner */
+        .cct-banner {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-left: 4px solid #38bdf8;
+            border-radius: 12px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .cct-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .cct-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cct-tag {
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .cct-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cct-item {
+            background: #080c13;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .cct-item h4 {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cct-item p {
+            color: var(--text-muted);
+            font-size: 0.76rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.8rem;
+        }
+
+        .section-header h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Resource Bento Grid */
+        .resource-bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .resource-card {
+            background-color: rgba(19, 23, 32, 0.75);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(56, 189, 248, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.04);
+        }
+
+        .resource-card-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .resource-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .resource-card h4 {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .resource-card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .resource-url-preview {
+            background: #06090e;
+            border: 1px solid #1c2433;
+            color: #64748b;
+            font-family: monospace;
+            font-size: 0.68rem;
+            padding: 5px 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .resource-btn {
+            margin-top: auto;
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+            padding: 0.65rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .resource-btn:hover {
+            background: #0284c7;
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 800px) {
+            .resource-bento-grid { grid-template-columns: 1fr; }
+            .cct-banner { padding: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="toast-container" class="toast-container"></div>
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap" style="color: #38bdf8; font-size: 25px;"></i>
+                <span>E-Books</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html" class="active">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://learntopper.in">StudyRoom</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search for Books, e.g., Maths, Science">
+            </div>
+            <button class="btn btn-blue" onclick="window.location.href='login.html'">Log In</button>
+            <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="sample-container">
+        
+        <!-- Hero Header -->
+        <header class="sample-hero">
+            <h1>Official Sample Papers & CCT Tests</h1>
+            <p>Access curated Class 9 CBSE question banks, marking schemes, blueprint solutions, and Creative & Critical Thinking (CCT) assessments.</p>
+        </header>
+
+        <!-- 1. CBSE CCT ASSESSMENT BANNER (WITH DIRECT VIEW BUTTON) -->
+        <section class="cct-banner">
+            <div class="cct-header">
+                <h2><i class="fa-solid fa-brain" style="color: #38bdf8;"></i> CBSE Creative & Critical Thinking (CCT) Assessment</h2>
+                <span class="cct-tag">PISA-ALIGNED TESTS</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; margin: 0;">
+                The <strong>CBSE CCT Practice Tests</strong> assess real-world problem-solving, scientific reasoning, and reading literacy rather than textbook memorization. Practice these items to build analytical competency for modern board evaluations.
+            </p>
+
+            <div class="cct-grid">
+                <div class="cct-item">
+                    <h4><i class="fa-solid fa-calculator"></i> Mathematical Reasoning</h4>
+                    <p>Quantitative analysis, graph interpretation, and real-life problem solving.</p>
+                </div>
+                <div class="cct-item">
+                    <h4><i class="fa-solid fa-flask"></i> Scientific Enquiry</h4>
+                    <p>Evidence-based reasoning, natural phenomena, and data evaluation.</p>
+                </div>
+                <div class="cct-item">
+                    <h4><i class="fa-solid fa-book-reader"></i> Reading Literacy</h4>
+                    <p>Case studies, comprehension extracts, and logical deduction tasks.</p>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <a href="https://diksha.gov.in/play/collection/do_31290608850520473612338?contentType=TextBook" target="_blank" rel="noopener noreferrer" class="resource-btn" style="display: inline-flex; width: auto; background: #0284c7; color: #fff; border-color: #38bdf8;">
+                Open Official CBSE CCT Portal
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. DIRECT ACCESS PAPERS (OPENS PROVIDED LINKS DIRECTLY) -->
+        <div class="section-header">
+            <h3><i class="fa-solid fa-folder-open" style="color: var(--btn-blue-accent);"></i> Curated Sample Papers Repositories</h3>
+        </div>
+
+        <div class="resource-bento-grid">
+
+            <!-- 1. SelfStudys Portal Link -->
+            <div class="resource-card">
+                <div class="resource-card-top">
+                    <div class="resource-card-icon" style="background: rgba(14, 165, 233, 0.15); color: #38bdf8;">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <h4>SelfStudys Sample Papers</h4>
+                        <span style="font-size: 0.68rem; color: #38bdf8; font-weight: 700;">SOLVED CBSE PAPERS</span>
+                    </div>
+                </div>
+                <p>Access subject-wise Class 9 CBSE sample question papers with detailed step-by-step solutions, marking schemes, and blueprint breakdowns.</p>
+                <div class="resource-url-preview">https://www.selfstudys.com/books/cbse-sample-paper/english/9th</div>
+                <a href="https://www.selfstudys.com/books/cbse-sample-paper/english/9th" target="_blank" rel="noopener noreferrer" class="resource-btn">
+                 View SelfStudys Papers
+                </a>
+            </div>
+
+            <!-- 2. Vedantu Sample Papers Link -->
+            <div class="resource-card">
+                <div class="resource-card-top">
+                    <div class="resource-card-icon" style="background: rgba(249, 115, 22, 0.15); color: #f97316;">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h4>Vedantu Model Papers</h4>
+                        <span style="font-size: 0.68rem; color: #f97316; font-weight: 700;">EXPERT QUESTION BANKS</span>
+                    </div>
+                </div>
+                <p>Curated Class 9 model test papers, previous years' question sets, and high-frequency exam questions across Science, Mathematics, and SST.</p>
+                <div class="resource-url-preview">https://www.vedantu.com/sample-papers/cbse-sample-question-papers-for-class-9</div>
+                <a href="https://www.vedantu.com/sample-papers/cbse-sample-question-papers-for-class-9" target="_blank" rel="noopener noreferrer" class="resource-btn" style="border-color: rgba(249, 115, 22, 0.4); color: #f97316;">
+                 View Vedantu Papers
+                </a>
+            </div>
+
+            <!-- 3. DIKSHA Government Portal Link -->
+            <div class="resource-card">
+                <div class="resource-card-top">
+                    <div class="resource-card-icon" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">
+                        <i class="fa-solid fa-landmark"></i>
+                    </div>
+                    <div>
+                        <h4>DIKSHA National Portal</h4>
+                        <span style="font-size: 0.68rem; color: #22c55e; font-weight: 700;">GOVT. OF INDIA PORTAL</span>
+                    </div>
+                </div>
+                <p>Official Government of India national digital repository featuring energized textbook modules, digital assessments, and interactive chapter sets.</p>
+                <div class="resource-url-preview">https://diksha.gov.in/play/collection/do_31290608850520473612338</div>
+                <a href="https://diksha.gov.in/play/collection/do_31290608850520473612338?contentType=TextBook" target="_blank" rel="noopener noreferrer" class="resource-btn" style="border-color: rgba(34, 197, 94, 0.4); color: #22c55e;">
+                 View DIKSHA Collection
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Bottom Action -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="btn btn-signup" style="padding: 0.85rem 2.2rem; font-size: 0.88rem; text-decoration: none;">
+             Return to Main E-Books Library
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            &copy; 2026 Class 9 E-Library. All rights reserved. Belongs To Owner.
+        </div>
+        <div class="footer-right">
+        </div>
+    </footer>
+
+    <!-- Standard script for user dropdown and toast handlers -->
+    <script src="script.js"></script>
+</body>
+</html>

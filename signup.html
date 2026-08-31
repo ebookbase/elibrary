@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Class 9 E-Books</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+        <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+
+
+    <!-- Sign Up Form Wrapper -->
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Register to access Class 9 educational portal</p>
+            
+            <form id="signup-form" onsubmit="event.preventDefault(); handleSignUp();">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-input" id="signup-name" placeholder="e.g. John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-input" id="signup-email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-input" id="signup-pass" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Verification Code</label>
+                    <div class="input-with-btn">
+                        <input type="text" id="signup-code" class="form-input" placeholder="6-digit code" maxlength="6" required oninput="checkCodeLive(this.value)">
+                        <button type="button" class="btn btn-code" id="getCodeBtn" onclick="sendVerificationCode()">Get Code</button>
+                    </div>
+                </div>
+                <div id="code-status-indicator" class="code-status-indicator"></div>
+                <div class="form-group">
+                    <label>Secret Phrase</label>
+                    <input type="text" id="secret-phrase-input" class="form-input" placeholder="Type secret phrase..." required oninput="calculateSHA256(this.value)">
+                </div>
+<!-- THEMED CHECKBOX -->
+                <div class="form-group checkbox-wrapper">
+                    <input type="checkbox" id="terms-check" class="theme-checkbox" required>
+                    <label for="terms-check" class="theme-checkbox-label">
+                        I agree to the <a href="about.html">Terms & Conditions</a>
+                    </label>
+                </div>
+                <button type="submit" class="btn-form" id="submitBtn">Complete Sign Up</button>
+            
+                        <div class="auth-footer" style="display: flex; flex-direction: column; gap: 10px; margin-top: 1.2rem;">
+                <div>
+                    Already have an account? <a href="login.html">Log In</a>
+                </div>
+                <div>
+                    <a href="index.html" class="back-home-link" style="color: var(--text-muted); text-decoration: none; font-size: 0.74rem; display: inline-flex; align-items: center; gap: 6px; transition: color 0.15s ease;">
+                        Return to Portal Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script>
+        const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
+
+        // =========================================================
+        // ESCALATING COOLDOWN TIMER (15s -> 20s -> 55s -> 90s)
+        // =========================================================
+        let sendAttempts = 0;
+        const cooldownSchedule = [15, 20, 55, 90];
+        let cooldownTimer = null;
+        let isCodeVerified = false;
+
+        function showToast(title, message, type = 'info', duration = 4000) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = {
+                success: 'fa-solid fa-circle-check',
+                error: 'fa-solid fa-circle-xmark',
+                warning: 'fa-solid fa-triangle-exclamation',
+                info: 'fa-solid fa-circle-info'
+            };
+
+            toast.innerHTML = `
+                <i class="${icons[type] || icons.info} toast-icon"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-msg">${message}</div>
+                </div>
+                <button type="button" class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 15);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 350);
+            }, duration);
+        }
+
+        // =========================================================
+        // 1. SEND CODE WITH ESCALATING COOLDOWN (15s -> 20s -> 55s)
+        // =========================================================
+        function sendVerificationCode() {
+            const email = document.getElementById('signup-email').value.trim();
+            const btn = document.getElementById('getCodeBtn');
+
+            if (!GOOGLE_APP_SCRIPT_URL || !GOOGLE_APP_SCRIPT_URL.includes('/exec')) {
+                showToast("Setup Error", "Your Google Script URL must end in '/exec'.", "error");
+                return;
+            }
+
+            if (!email || !email.includes('@')) {
+                showToast("Email Required", "Please enter a valid email address first.", "warning");
+                return;
+            }
+
+            btn.innerText = "Checking...";
+            btn.disabled = true;
+
+            const requestUrl = `${GOOGLE_APP_SCRIPT_URL}?action=sendCode&email=${encodeURIComponent(email)}`;
+
+            fetch(requestUrl, { method: 'GET' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("Code Dispatched", `Verification code sent to ${email}`, "success");
+                    startEscalatingCooldown();
+                } else {
+                    resetCodeButton();
+                    // Detect if already registered
+                    if (data.reason === 'already_exists') {
+                        showToast("Account Exists", "This email is already registered! Please log in instead.", "warning", 5000);
+                    } else {
+                        showToast("Dispatch Failed", data.message || "Error sending code.", "error");
+                    }
+                }
+            })
+            .catch(err => {
+                showToast("Network Error", "Could not connect to server.", "error");
+                resetCodeButton();
+            });
+        }
+
+
+        function startEscalatingCooldown() {
+            const btn = document.getElementById('getCodeBtn');
+            if (!btn) return;
+
+            // Pick 15s for 1st attempt, 20s for 2nd, 55s for 3rd and beyond
+            let timeLeft = cooldownSchedule[Math.min(sendAttempts, cooldownSchedule.length - 1)];
+            sendAttempts++;
+
+            btn.disabled = true;
+            btn.innerText = `Wait ${timeLeft}s`;
+
+            if (cooldownTimer) clearInterval(cooldownTimer);
+
+            cooldownTimer = setInterval(() => {
+                timeLeft--;
+                btn.innerText = `Wait ${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(cooldownTimer);
+                    resetCodeButton(true);
+                }
+            }, 1000);
+        }
+
+        function resetCodeButton(isResend = false) {
+            const btn = document.getElementById('getCodeBtn');
+            if (!btn) return;
+            btn.disabled = false;
+            btn.innerText = isResend ? "Resend" : "Get Code";
+        }
+
+// =========================================================
+        // 2. REAL-TIME VERIFICATION CODE MATCHING (With Spacing Fix)
+        // =========================================================
+        async function checkCodeLive(code) {
+            const trimmed = code.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const inputField = document.getElementById('signup-code');
+            const statusMsg = document.getElementById('code-status-indicator');
+
+            if (trimmed.length < 6) {
+                isCodeVerified = false;
+                inputField.classList.remove('input-valid', 'input-invalid');
+                if (statusMsg) {
+                    statusMsg.innerHTML = '';
+                    statusMsg.style.marginBottom = '0px'; // No extra space when empty
+                }
+                return;
+            }
+
+            // Exactly 6 digits typed -> check match instantly
+            if (trimmed.length === 6) {
+                if (!email) {
+                    showToast("Email Missing", "Enter your email above first.", "warning");
+                    return;
+                }
+
+                if (statusMsg) {
+                    statusMsg.style.marginBottom = '12px'; // Add gap
+                    statusMsg.innerHTML = '<span style="color: #38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Checking code match...</span>';
+                }
+
+                try {
+                    const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=verifyCode&email=${encodeURIComponent(email)}&code=${encodeURIComponent(trimmed)}`, { method: 'GET' });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        isCodeVerified = true;
+                        inputField.classList.remove('input-invalid');
+                        inputField.classList.add('input-valid');
+                        if (statusMsg) {
+                            statusMsg.style.marginBottom = '12px';
+                            statusMsg.innerHTML = '<span style="color: #22c55e; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Code matched & verified!</span>';
+                        }
+                        showToast("Code Matched", "Verification code is correct!", "success");
+                    } else {
+                        isCodeVerified = false;
+                        inputField.classList.remove('input-valid');
+                        inputField.classList.add('input-invalid');
+                        if (statusMsg) {
+                            statusMsg.style.marginBottom = '12px';
+                            statusMsg.innerHTML = '<span style="color: #ef4444; font-weight: 600;"><i class="fa-solid fa-circle-xmark"></i> Code does not match</span>';
+                        }
+                        showToast("Code Error", "Verification code is incorrect.", "error");
+                    }
+                } catch(e) {
+                    isCodeVerified = false;
+                    if (statusMsg) {
+                        statusMsg.style.marginBottom = '12px';
+                        statusMsg.innerHTML = '<span style="color: #eab308;"><i class="fa-solid fa-triangle-exclamation"></i> Verification check failed</span>';
+                    }
+                }
+            }
+        }
+
+        // =========================================================
+        // 3. SHA-256 ENCODER
+        // =========================================================
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function calculateSHA256(text) {
+            const hashPreview = document.getElementById('hash-preview');
+            if (!text) {
+                if (hashPreview) hashPreview.innerText = "SHA-256 Hash: Type to generate hash...";
+                return;
+            }
+            const hash = await sha256(text);
+            if (hashPreview) hashPreview.innerText = `SHA-256: ${hash}`;
+        }
+
+        // =========================================================
+        // 4. REGISTRATION SUBMIT
+        // =========================================================
+        async function handleSignUp() {
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const pass = document.getElementById('signup-pass').value;
+            const code = document.getElementById('signup-code').value.trim();
+            const secretRaw = document.getElementById('secret-phrase-input').value.trim();
+            const termsChecked = document.getElementById('terms-check').checked;
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (!termsChecked) {
+                showToast("Terms Required", "Please accept the Terms & Conditions to proceed.", "warning");
+                return;
+            }
+            if (!code || code.length !== 6) {
+                showToast("Code Missing", "Please enter a valid 6-digit code.", "warning");
+                return;
+            }
+
+            const inputHash = await sha256(secretRaw);
+            const targetHash = await sha256("E-Book");
+
+            if (inputHash !== targetHash) {
+                showToast("Security Rejection", "Incorrect Secret Phrase.", "error");
+                return;
+            }
+
+            submitBtn.innerText = "Registering Account...";
+            submitBtn.disabled = true;
+
+            const payload = {
+                action: 'register',
+                name: name,
+                email: email,
+                password: pass,
+                code: code,
+                terms: termsChecked
+            };
+
+            fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("Account Created", "Registration submitted! Redirecting to login...", "success", 3500);
+                    setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                } else {
+                    submitBtn.innerText = "Complete Sign Up";
+                    submitBtn.disabled = false;
+
+                    if (data.reason === 'already_exists') {
+                        showToast("Account Exists", "This email is already registered! Please Log In.", "warning", 5000);
+                    } else {
+                        showToast("Registration Failed", data.message, "error");
+                    }
+                }
+            })
+            .catch(err => {
+                showToast("Database Error", "Could not connect to database endpoint.", "error");
+                submitBtn.innerText = "Complete Sign Up";
+                submitBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

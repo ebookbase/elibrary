@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum & Subjects | Class 9 Digital Portal</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================================================== */
+        /* SUBJECTS & NEP DASHBOARD STYLING                   */
+        /* ================================================== */
+        .subjects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .subjects-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .subjects-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 40%, var(--btn-blue-accent) 100%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .subjects-hero p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* NEP 2020 Highlight Banner */
+        .nep-banner {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-left: 4px solid var(--btn-blue-accent);
+            border-radius: 12px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .nep-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .nep-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nep-tag {
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid var(--btn-blue-accent);
+            color: #38bdf8;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .nep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .nep-item {
+            background: #080c13;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .nep-item h4 {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nep-item p {
+            color: var(--text-muted);
+            font-size: 0.76rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Subjects Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.8rem;
+        }
+
+        .section-header h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Subjects Grid */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .subject-card {
+            background-color: rgba(19, 23, 32, 0.7);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.03);
+        }
+
+        .card-header-bar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .subject-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .subject-title-box h4 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .subject-code-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            display: inline-block;
+        }
+
+        .subject-desc {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Topics & Material Pills */
+        .topics-tag-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .topic-pill {
+            background: #06090e;
+            border: 1px solid #1e2634;
+            color: #94a3b8;
+            font-size: 0.68rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .material-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .material-count {
+            color: #38bdf8;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-view-subject {
+            background: transparent;
+            color: #cbd5e1;
+            border: 1px solid var(--card-border);
+            padding: 0.35rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.15s ease;
+        }
+
+        .btn-view-subject:hover {
+            background: rgba(14, 165, 233, 0.15);
+            color: #38bdf8;
+            border-color: #38bdf8;
+        }
+
+        /* Study Material Hub Section */
+        .study-hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hub-box {
+            background: #080c14;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.4rem;
+            transition: 0.2s ease;
+        }
+
+        .hub-box:hover {
+            border-color: var(--btn-blue-accent);
+            transform: translateY(-2px);
+        }
+
+        .hub-box i {
+            font-size: 1.6rem;
+            color: var(--btn-blue-accent);
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .hub-box h4 {
+            color: #fff;
+            font-size: 0.92rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .hub-box p {
+            color: var(--text-muted);
+            font-size: 0.76rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (max-width: 800px) {
+            .subjects-grid { grid-template-columns: 1fr; }
+            .nep-banner { padding: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Background Effects -->
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap" style="color: #38bdf8; font-size: 25px;"></i>
+                <span>E-Books</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="subjects.html" class="active">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://learntopper.in">StudyRoom</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search for Books, e.g., Maths, Science">
+            </div>
+            <button class="btn btn-blue" onclick="window.location.href='login.html'">Log In</button>
+            <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="subjects-container">
+        
+        <!-- Hero Header -->
+        <header class="subjects-hero">
+            <h1>Curriculum & Academic Structure</h1>
+            <p>Comprehensive Class 9 syllabus, competency-based learning pathways, and open-source study materials built upon the National Education Policy (NEP 2020) framework.</p>
+        </header>
+
+        <!-- 1. NEP 2020 FRAMEWORK BANNER -->
+        <section class="nep-banner">
+            <div class="nep-header">
+                <h2><i class="fa-solid fa-graduation-cap" style="color: #38bdf8;"></i> NEP 2023 Secondary Stage Vision (Grades 9–12)</h2>
+                <span class="nep-tag">COMPETENCY-BASED FRAMEWORK</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; margin: 0;">
+                The National Education Policy (NEP 2023) transforms the Class 9 curriculum from rote memorization to <strong>experiential, inquiry-driven, and multidisciplinary education</strong>. Students are encouraged to develop critical thinking, digital literacy, and holistic life values without rigid separations between Sciences, Arts, and Vocational fields.
+            </p>
+
+            <div class="nep-grid">
+                <div class="nep-item">
+                    <h4><i class="fa-solid fa-brain"></i> Conceptual Mastery</h4>
+                    <p>Emphasis on fundamental understanding and application over rote exam preparation.</p>
+                </div>
+                <div class="nep-item">
+                    <h4><i class="fa-solid fa-cubes"></i> Multidisciplinary Choice</h4>
+                    <p>Integration of technical skills, art appreciation, and fitness alongside core sciences.</p>
+                </div>
+                <div class="nep-item">
+                    <h4><i class="fa-solid fa-laptop-code"></i> Computational Thinking</h4>
+                    <p>Early induction of IT, algorithms, cyber ethics, and digital creation tools.</p>
+                </div>
+                <div class="nep-item">
+                    <h4><i class="fa-solid fa-heart-pulse"></i> Holistic Development</h4>
+                    <p>Structured physical education, emotional resilience, and ethics for civic awareness.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ALL SUBJECTS DIRECTORY -->
+        <div class="section-header">
+            <h3><i class="fa-solid fa-layer-group" style="color: var(--btn-blue-accent);"></i> Prescribed Subjects Directory (10 Courses)</h3>
+        </div>
+
+        <div class="subjects-grid">
+
+            <!-- 1. MATHEMATICS -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(234, 88, 12, 0.15); color: #ea580c;">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Mathematics</h4>
+                            <span class="subject-code-badge">CODE 041</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Develops analytical thinking, spatial visualization, and algebraic mastery with practical theorem applications.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Number Systems</span>
+                    <span class="topic-pill">Polynomials</span>
+                    <span class="topic-pill">Coordinate Geometry</span>
+                    <span class="topic-pill">Surface Areas & Volumes</span>
+                    <span class="topic-pill">Statistics</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> NCERT + Exemplar + Formula Sheets</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 2. SCIENCE -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(22, 163, 74, 0.15); color: #16a34a;">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Science</h4>
+                            <span class="subject-code-badge">CODE 086</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Covers fundamental principles across Physics, Chemistry, and Biology with interactive practical lab orientations.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Matter & Atoms</span>
+                    <span class="topic-pill">Cell Biology & Tissues</span>
+                    <span class="topic-pill">Laws of Motion</span>
+                    <span class="topic-pill">Gravitation</span>
+                    <span class="topic-pill">Work & Energy</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> NCERT Textbook + Practical Lab Manual</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 3. SOCIAL SCIENCE (SST) -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(147, 51, 234, 0.15); color: #9333ea;">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Social Science (SST)</h4>
+                            <span class="subject-code-badge">CODE 087</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Interdisciplinary exploration of World History, Physical Geography, Democratic Governance, and Economic Development.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">French Revolution</span>
+                    <span class="topic-pill">Physical Features of India</span>
+                    <span class="topic-pill">Electoral Politics</span>
+                    <span class="topic-pill">Food Security</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> 4 NCERT Books + Map Work Kits</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 4. ENGLISH LANGUAGE & LITERATURE -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>English Literature</h4>
+                            <span class="subject-code-badge">CODE 184</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Enhances communicative competence, critical comprehension, creative composition, and literary appreciation.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Beehive (Prose & Poetry)</span>
+                    <span class="topic-pill">Moments (Supplementary)</span>
+                    <span class="topic-pill">Formal Writing</span>
+                    <span class="topic-pill">Integrated Grammar</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> Beehive + Moments + Grammar Guides</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 5. HINDI -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(220, 38, 38, 0.15); color: #dc2626;">
+                            <i class="fa-solid fa-om"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Hindi (Course A & B)</h4>
+                            <span class="subject-code-badge">CODE 002 / 085</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Develops proficiency in Hindi prose, classical/modern poetry, linguistic grammar, and expressive creative writing.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Kshitij Bhag-1</span>
+                    <span class="topic-pill">Kritika Bhag-1</span>
+                    <span class="topic-pill">Sparsh & Sanchayan</span>
+                    <span class="topic-pill">Vyakaran (Grammar)</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> NCERT Textbooks + Shabdroop Manuals</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 6. INFORMATION TECHNOLOGY / COMPUTER -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(13, 148, 136, 0.15); color: #0d9488;">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Information Technology (IT)</h4>
+                            <span class="subject-code-badge">CODE 402 / 165</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Vocational digital literacy covering office automation, cyber security protocols, data handling, and algorithmic fundamentals.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Digital Documentation</span>
+                    <span class="topic-pill">Spreadsheet Analysis</span>
+                    <span class="topic-pill">Cyber Safety</span>
+                    <span class="topic-pill">Python Basics</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> CBSE Curriculum Modules + Project Code</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 7. SANSKRIT -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Sanskrit</h4>
+                            <span class="subject-code-badge">CODE 122</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Classical language study promoting linguistic structure, Sanskrit literature, shlokas, and traditional linguistic heritage.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Shemushi Prathamo Bhag</span>
+                    <span class="topic-pill">Vyakaranavithi</span>
+                    <span class="topic-pill">Sandhi & Samas</span>
+                    <span class="topic-pill">Anuvad (Translation)</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> Shemushi + Sanskrit Grammar Reader</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 8. PHYSICAL EDUCATION & HEALTH -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Health & Physical Education</h4>
+                            <span class="subject-code-badge">CODE HPE</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Fosters athletic stamina, yoga practices, nutritional awareness, mental wellness, and emergency first-aid protocols.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Fitness & Agility</span>
+                    <span class="topic-pill">Yogic Asanas</span>
+                    <span class="topic-pill">Diet & Nutrition</span>
+                    <span class="topic-pill">Safety & First Aid</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> CBSE HPE Activity Logbooks & Guidelines</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 9. ART EDUCATION -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Art Education & Fine Arts</h4>
+                            <span class="subject-code-badge">CODE 502</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Cultivates aesthetic appreciation, cultural heritage awareness, traditional folk art, and creative visual expression.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Visual Arts & Painting</span>
+                    <span class="topic-pill">Indian Folk Art Traditions</span>
+                    <span class="topic-pill">Design Principles</span>
+                    <span class="topic-pill">Sculpture & Crafts</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> Visual Arts Handbook & Portfolio Kits</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+            <!-- 10. VALUE EDUCATION & LIFE SKILLS -->
+            <div class="subject-card">
+                <div class="card-header-bar">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="subject-icon-box" style="background: rgba(14, 165, 233, 0.15); color: #0ea5e9;">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="subject-title-box">
+                            <h4>Value Education & Life Skills</h4>
+                            <span class="subject-code-badge">NEP CORE</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="subject-desc">Instills universal human values, ethical leadership, emotional intelligence, environmental conservation, and social empathy.</p>
+                <div class="topics-tag-wrap">
+                    <span class="topic-pill">Ethical Decision Making</span>
+                    <span class="topic-pill">Emotional Intelligence</span>
+                    <span class="topic-pill">Environmental Stewardship</span>
+                    <span class="topic-pill">Civic Duty</span>
+                </div>
+                <div class="material-footer">
+                    <span class="material-count"><i class="fa-regular fa-file-pdf"></i> Life Skills Modules & Activity Guides</span>
+                    <a href="index.html" class="btn-view-subject">Explore E-Books</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. STUDY MATERIALS & RESOURCE HUB -->
+        <div class="section-header">
+            <h3><i class="fa-solid fa-folder-open" style="color: #38bdf8;"></i> Study Materials & Resource Repositories</h3>
+        </div>
+
+        <div class="study-hub-grid">
+            <div class="hub-box">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <h4>NCERT Textbooks</h4>
+                <p>Standard prescribed digitized textbooks across all medium pathways, complete with end-of-chapter exercises.</p>
+            </div>
+            <div class="hub-box">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h4>NCERT Exemplar Problems</h4>
+                <p>Higher Order Thinking Skills (HOTS) questions and advanced problem-solving sets for Maths and Science.</p>
+            </div>
+            <div class="hub-box">
+                <i class="fa-solid fa-diagram-project"></i>
+                <h4>Chapter Mind Maps</h4>
+                <p>Visual revision flowcharts designed for rapid concept recall before terminal and annual assessments.</p>
+            </div>
+            <div class="hub-box">
+                <i class="fa-solid fa-file-signature"></i>
+                <h4>Sample Question Papers</h4>
+                <p>CBSE-pattern sample test papers with scoring rubrics and step-by-step model solutions.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer">
+            &copy; 2026 Class 9 E-Library. All rights reserved. Belongs to Owner.
+        </div>
+    </footer>
+
+    <!-- Standard script for user dropdown and toast handlers -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account | Class 9 Portal</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Background Effects -->
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+    
+        <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap" style="color: #38bdf8; font-size: 25px;"></i>
+                <span>E-Books</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://learntopper.in">StudyRoom</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search for Books, e.g., Maths, Science">
+            </div>
+            <button class="btn btn-signup" onclick="window.location.href='index.html'">Return To Home</button>
+        </div>
+    </nav>
+
+    <!-- Manage Account Container -->
+    <main class="manage-container">
+        <div class="manage-header">
+            <h1>Account Settings</h1>
+            <p>Manage your profile identity, security credentials, and verified email address.</p>
+        </div>
+
+        <div class="manage-grid">
+            <!-- 1. Current Account Info -->
+            <div class="manage-card">
+                <h3><i class="fa-solid fa-id-card"></i> Profile Overview</h3>
+                
+                <div class="user-info-pill">
+                    <div>
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value" id="disp-name">Loading...</div>
+                    </div>
+                    <i class="fa-regular fa-user" style="color: var(--btn-blue-accent);"></i>
+                </div>
+
+                <div class="user-info-pill">
+                    <div>
+                        <div class="info-label">Registered Email</div>
+                        <div class="info-value" id="disp-email">Loading...</div>
+                    </div>
+                    <i class="fa-regular fa-envelope" style="color: var(--btn-blue-accent);"></i>
+                </div>
+
+                <div class="user-info-pill">
+                    <div>
+                        <div class="info-label">Account Status</div>
+                        <div class="info-value"><span class="status-badge-approved">ACTIVE & APPROVED</span></div>
+                    </div>
+                    <i class="fa-solid fa-shield-halved" style="color: #22c55e;"></i>
+                </div>
+            </div>
+
+            <!-- 2. Update Name & Password -->
+            <div class="manage-card">
+                <h3><i class="fa-solid fa-user-pen"></i> Update Profile & Password</h3>
+                
+                <form onsubmit="event.preventDefault(); handleUpdateDetails();">
+                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                        <label>Change Display Name</label>
+                        <input type="text" id="edit-name" class="form-input" placeholder="New display name">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.2rem;">
+                        <label>New Password</label>
+                        <input type="password" id="edit-pass" class="form-input" placeholder="Leave empty to keep current">
+                    </div>
+
+                    <button type="submit" id="saveDetailsBtn" class="btn-form">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- 3. Change Email Address (Requires Verification) -->
+            <div class="manage-card" style="grid-column: span 2;">
+                <h3><i class="fa-solid fa-envelope-circle-check"></i> Change Email Address</h3>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">
+                    To protect your account, changing your email requires a 6-digit verification code sent to the new email address.
+                </p>
+
+                <form onsubmit="event.preventDefault(); handleEmailChange();" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: flex-end;">
+                    <div class="form-group" style="margin: 0;">
+                        <label>New Email Address</label>
+                        <input type="email" id="new-email" class="form-input" placeholder="new.email@example.com" required>
+                    </div>
+
+                    <div class="form-group" style="margin: 0;">
+                        <label>Verification Code</label>
+                        <div class="input-with-btn">
+                            <input type="text" id="email-change-code" class="form-input" placeholder="6-digit code" maxlength="6" required>
+                            <button type="button" id="getEmailCodeBtn" class="btn btn-code" onclick="sendEmailChangeVerification()">Get Code</button>
+                        </div>
+                    </div>
+
+                    <div style="grid-column: span 2;">
+                        <button type="submit" id="saveEmailBtn" class="btn-form" style="background-color: var(--primary-blue-hover);">
+                            Verify & Update Email Address
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer">
+            &copy; 2026 Class 9 E-Library. All rights reserved. Belongs to Owner.
+        </div>
+    </footer>
+    
+
+    <script>
+        const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
+
+        let currentUser = null;
+        let changeCooldownTimer = null;
+        let changeAttempts = 0;
+        const cooldownSchedule = [15, 20, 55, 90];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const raw = localStorage.getItem('portalUser');
+            if (!raw) {
+                window.location.href = "login.html";
+                return;
+            }
+            currentUser = JSON.parse(raw);
+            document.getElementById('disp-name').innerText = currentUser.name;
+            document.getElementById('disp-email').innerText = currentUser.email;
+            document.getElementById('edit-name').value = currentUser.name;
+
+            // Real-time restricted check
+            verifySession();
+        });
+
+        async function verifySession() {
+            try {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=checkStatus&email=${encodeURIComponent(currentUser.email)}`);
+                const data = await res.json();
+                if (data.success && data.status.toLowerCase() === 'restricted') {
+                    localStorage.removeItem('portalUser');
+                    window.location.href = "login.html?restricted=1";
+                }
+            } catch(e) {}
+        }
+
+        // Custom Toast Engine
+        function showToast(title, message, type = 'info', duration = 4000) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-solid fa-circle-check', error: 'fa-solid fa-circle-xmark', warning: 'fa-solid fa-triangle-exclamation', info: 'fa-solid fa-circle-info' };
+            toast.innerHTML = `<i class="${icons[type] || icons.info} toast-icon"></i><div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div><button type="button" class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 15);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, duration);
+        }
+
+        // Update Name & Password
+        async function handleUpdateDetails() {
+            const newName = document.getElementById('edit-name').value.trim();
+            const newPass = document.getElementById('edit-pass').value.trim();
+            const btn = document.getElementById('saveDetailsBtn');
+
+            if (!newName) {
+                showToast("Name Required", "Display name cannot be empty.", "warning");
+                return;
+            }
+
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
+            fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    action: 'updateProfile',
+                    currentEmail: currentUser.email,
+                    newName: newName,
+                    newPassword: newPass
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerText = "Save Changes";
+                btn.disabled = false;
+                if (data.success) {
+                    currentUser.name = data.user.name;
+                    localStorage.setItem('portalUser', JSON.stringify(currentUser));
+                    document.getElementById('disp-name').innerText = currentUser.name;
+                    document.getElementById('edit-pass').value = '';
+                    showToast("Profile Updated", "Your display name and password have been saved!", "success");
+                } else {
+                    showToast("Update Failed", data.message, "error");
+                }
+            })
+            .catch(err => {
+                btn.innerText = "Save Changes";
+                btn.disabled = false;
+                showToast("Network Error", "Could not connect to database.", "error");
+            });
+        }
+
+        // Send Email Change Verification Code
+        function sendEmailChangeVerification() {
+            const newEmail = document.getElementById('new-email').value.trim();
+            const btn = document.getElementById('getEmailCodeBtn');
+
+            if (!newEmail || !newEmail.includes('@')) {
+                showToast("Email Required", "Please enter a valid new email address.", "warning");
+                return;
+            }
+            if (newEmail.toLowerCase() === currentUser.email.toLowerCase()) {
+                showToast("Identical Email", "New email must be different from current email.", "warning");
+                return;
+            }
+
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+
+            const requestUrl = `${GOOGLE_APP_SCRIPT_URL}?action=sendCode&email=${encodeURIComponent(newEmail)}&isEmailChange=true`;
+
+            fetch(requestUrl, { method: 'GET' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast("Code Dispatched", `Verification code sent to ${newEmail}`, "success");
+                    startChangeCooldown();
+                } else {
+                    showToast("Dispatch Failed", data.message, "error");
+                    btn.disabled = false;
+                    btn.innerText = "Get Code";
+                }
+            })
+            .catch(err => {
+                showToast("Network Error", "Could not connect to server.", "error");
+                btn.disabled = false;
+                btn.innerText = "Get Code";
+            });
+        }
+
+        function startChangeCooldown() {
+            const btn = document.getElementById('getEmailCodeBtn');
+            let timeLeft = cooldownSchedule[Math.min(changeAttempts, cooldownSchedule.length - 1)];
+            changeAttempts++;
+            btn.disabled = true;
+            btn.innerText = `Wait ${timeLeft}s`;
+
+            if (changeCooldownTimer) clearInterval(changeCooldownTimer);
+            changeCooldownTimer = setInterval(() => {
+                timeLeft--;
+                btn.innerText = `Wait ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(changeCooldownTimer);
+                    btn.disabled = false;
+                    btn.innerText = "Resend";
+                }
+            }, 1000);
+        }
+
+        // Complete Email Change
+        function handleEmailChange() {
+            const newEmail = document.getElementById('new-email').value.trim();
+            const code = document.getElementById('email-change-code').value.trim();
+            const btn = document.getElementById('saveEmailBtn');
+
+            if (!newEmail || code.length !== 6) {
+                showToast("Verification Required", "Please enter new email and the 6-digit code.", "warning");
+                return;
+            }
+
+            btn.innerText = "Verifying & Updating...";
+            btn.disabled = true;
+
+            fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    action: 'updateProfile',
+                    currentEmail: currentUser.email,
+                    newEmail: newEmail,
+                    code: code
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerText = "Verify & Update Email Address";
+                btn.disabled = false;
+                if (data.success) {
+                    currentUser.email = data.user.email;
+                    localStorage.setItem('portalUser', JSON.stringify(currentUser));
+                    document.getElementById('disp-email').innerText = currentUser.email;
+                    document.getElementById('new-email').value = '';
+                    document.getElementById('email-change-code').value = '';
+                    showToast("Email Updated", "Your account email has been successfully updated!", "success");
+                } else {
+                    showToast("Change Failed", data.message, "error");
+                }
+            })
+            .catch(err => {
+                btn.innerText = "Verify & Update Email Address";
+                btn.disabled = false;
+                showToast("Network Error", "Could not connect to database.", "error");
+            });
+        }
+    </script>
+</body>
+</html>

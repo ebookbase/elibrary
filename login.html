@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Class 9 E-Books</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+     <!-- Advanced CSS-Vector Background Effects (Math based background as per the prior prompt setup) -->
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+    <div class="bg-glow-top"></div>
+    <div class="bg-watermark">
+        &lt;html&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+        &nbsp;&nbsp;&lt;/head&gt;<br>
+        &nbsp;&nbsp;&lt;body&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+        &lt;/html&gt;
+    </div>
+
+
+    <!-- Login Form Wrapper -->
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Log in to access your approved Class 9 digital portal</p>
+            
+            <form id="login-form" onsubmit="event.preventDefault(); handleLoginSubmit();">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-pass" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" id="loginBtn" class="btn-form">Log In</button>
+            </form>
+
+                        <div class="auth-footer" style="display: flex; flex-direction: column; gap: 10px; margin-top: 1.2rem;">
+                <div>
+                    Don't have an account? <a href="signup.html">Sign Up</a>
+                </div>
+                <div>
+                    <a href="index.html" class="back-home-link" style="color: var(--text-muted); text-decoration: none; font-size: 0.74rem; display: inline-flex; align-items: center; gap: 6px; transition: color 0.15s ease;">
+                        Return to Portal Home
+                    </a>
+                </div>
+            </div>
+    </div>
+
+    <!-- Embedded Iframe Admin Modal (Triggered by Ctrl + Shift + U) -->
+    <div class="admin-console-modal" id="adminConsole" style="width: 95vw; height: 90vh; max-width: 1300px; padding: 0; overflow: hidden;">
+        <div class="admin-header" style="padding: 10px 16px; margin: 0; background: #0b0e14;">
+            <h3>Admin Console Gateway</h3>
+            <button class="close-modal" onclick="toggleAdminConsole(false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <iframe id="adminIframe" src="" style="width: 100%; height: calc(100% - 45px); border: none;"></iframe>
+    </div>
+
+    <script>
+        const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
+
+        // Check if user was automatically kicked due to restriction
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('restricted') === '1') {
+                showToast("Account Restricted", "Your session was terminated. Access has been disabled by an administrator.", "error", 6000);
+            }
+        });
+
+        // Toast Engine
+        function showToast(title, message, type = 'info', duration = 4000) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = {
+                success: 'fa-solid fa-circle-check',
+                error: 'fa-solid fa-circle-xmark',
+                warning: 'fa-solid fa-triangle-exclamation',
+                info: 'fa-solid fa-circle-info'
+            };
+
+            toast.innerHTML = `
+                <i class="${icons[type] || icons.info} toast-icon"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-msg">${message}</div>
+                </div>
+                <button type="button" class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 15);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 350);
+            }, duration);
+        }
+
+        // Handle Login
+        async function handleLoginSubmit() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-pass').value;
+            const btn = document.getElementById('loginBtn');
+
+            if (!email || !password) {
+                showToast("Fields Required", "Please enter both email and password.", "warning");
+                return;
+            }
+
+            btn.innerText = "Authenticating...";
+            btn.disabled = true;
+
+            const payload = {
+                action: 'login',
+                email: email,
+                password: password
+            };
+
+            fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const userSession = {
+                        name: data.user.name,
+                        email: data.user.email,
+                        loginTimestamp: Date.now()
+                    };
+                    localStorage.setItem('portalUser', JSON.stringify(userSession));
+
+                    showToast("Login Success", `Welcome back, ${data.user.name}! Redirecting...`, "success", 2000);
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1500);
+                } else {
+                    btn.innerText = "Log In";
+                    btn.disabled = false;
+
+                    if (data.reason === 'pending') {
+                        showToast("Pending Approval", data.message, "warning", 5000);
+                    } else if (data.reason === 'restricted') {
+                        showToast("Account Restricted", data.message, "error", 5500);
+                    } else if (data.reason === 'not_found') {
+                        showToast("Account Not Found", data.message, "error", 4500);
+                    } else if (data.reason === 'wrong_password') {
+                        showToast("Access Denied", data.message, "error", 4000);
+                    } else {
+                        showToast("Login Error", data.message || "Failed to log in.", "error", 4000);
+                    }
+                }
+            })
+            .catch(err => {
+                btn.innerText = "Log In";
+                btn.disabled = false;
+                showToast("Connection Error", "Could not reach database. Check network.", "error");
+            });
+        }
+
+        // Admin Console Key Shortcut (Ctrl + Shift + U)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+                toggleAdminConsole(true);
+            }
+        });
+
+        function toggleAdminConsole(open) {
+            const consoleModal = document.getElementById('adminConsole');
+            const iframe = document.getElementById('adminIframe');
+            if (open) {
+                iframe.src = "admin.html";
+                consoleModal.classList.add('active');
+            } else {
+                iframe.src = "";
+                consoleModal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

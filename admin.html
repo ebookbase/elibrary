@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Terminal | Class 9 E-Books</title>
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/simple-icons:github.svg?color=%23ffffff">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .admin-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 5rem; z-index: 10; position: relative; }
+        .admin-lock-overlay { position: fixed; inset: 0; background: rgba(10, 13, 19, 0.95); backdrop-filter: blur(15px); z-index: 99999; display: flex; align-items: center; justify-content: center; }
+        .admin-lock-card { background: #131720; border: 1px solid #38bdf8; border-radius: 12px; padding: 2.5rem; width: 380px; text-align: center; box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); }
+        
+        .admin-tabs { display: flex; gap: 8px; margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; flex-wrap: wrap; }
+        .admin-tab-btn { background: #131720; border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .admin-tab-btn:hover { color: #fff; border-color: var(--btn-blue-accent); }
+        .admin-tab-btn.active { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border-color: #38bdf8; }
+        
+        .admin-section { display: none; }
+        .admin-section.active { display: block; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card-admin-box { background: #131720; border: 1px solid var(--card-border); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; }
+        .card-admin-box-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 1.2rem; }
+        .card-admin-box h3 { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 8px; margin: 0; }
+        
+        .mode-switcher-container { display: flex; gap: 10px; background: #070a10; padding: 6px; border-radius: 8px; border: 1px solid var(--card-border); margin-bottom: 1.5rem; }
+        .mode-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .mode-btn.active { background: #1e293b; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        
+        .upload-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+        .custom-upload-box { background: #070a10; border: 1px dashed var(--card-border); border-radius: 10px; padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.2s ease;}
+        .custom-upload-box:hover { border-color: var(--btn-blue-accent); background: #0b0f17; }
+        
+        .file-select-btn { background: #1a2230; border: 1px solid var(--card-border); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s; margin-right: 8px; }
+        .file-select-btn:hover { background: #222d40; border-color: var(--btn-blue-accent); color: #fff; }
+        
+        .badge-linked { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #4ade80; padding: 4px 10px; border-radius: 4px; margin-top: 10px; font-size: 0.72rem; font-weight: bold; word-break: break-all; }
+        
+        /* THEMED PROGRESS BAR */
+        .progress-wrapper { width: 100%; margin-top: 12px; display: none; }
+        .progress-bar-bg { background: #0f172a; border: 1px solid var(--card-border); border-radius: 8px; height: 12px; width: 100%; overflow: hidden; position: relative; }
+        .progress-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); height: 100%; width: 0%; transition: width 0.2s ease; border-radius: 8px; box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+        .progress-text { color: #cbd5e1; font-size: 0.7rem; font-weight: 600; margin-top: 6px; text-align: center; }
+
+                .admin-table-container { 
+            background: #070a10; 
+            border: 1px solid var(--card-border); 
+            border-radius: 10px; 
+            overflow-x: auto; 
+            margin-top: 1rem; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4); 
+        }
+        .admin-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.78rem; 
+            text-align: left; 
+            white-space: nowrap;
+        }
+        .admin-table th { 
+            background: #0b0f17; 
+            padding: 10px 14px; 
+            color: #64748b; 
+            font-size: 0.68rem; 
+            text-transform: uppercase; 
+            border-bottom: 1px solid #1e2634; 
+            letter-spacing: 0.8px; 
+            font-weight: 700; 
+        }
+        .admin-table td { 
+            padding: 9px 14px; 
+            border-bottom: 1px solid #111622; 
+            color: #cbd5e1; 
+            vertical-align: middle;
+        }
+        .admin-table tr:hover td { 
+            background: rgba(56, 189, 248, 0.03); 
+        }
+
+        /* Sleek Status Badges */
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        .badge-approved { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .badge-restricted { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-dl-allow { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); }
+        .badge-dl-block { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25); }
+        .badge-ip { background: #131722; color: #94a3b8; border: 1px solid #1e2634; font-family: monospace; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; }
+        .badge-event-online { color: #4ade80; font-weight: 600; font-size: 0.72rem; }
+        .badge-event-dl { color: #f59e0b; font-weight: 600; font-size: 0.72rem; }
+        .badge-event-offline { color: #64748b; font-size: 0.72rem; }
+
+        /* Compact Action Buttons */
+        .btn-ghost-red, .btn-ghost-green, .btn-ghost-cyan {
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+        .btn-ghost-red { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171; }
+        .btn-ghost-red:hover { background: rgba(239, 68, 68, 0.25); color: #fff; }
+
+        .btn-ghost-green { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: #4ade80; }
+        .btn-ghost-green:hover { background: rgba(34, 197, 94, 0.25); color: #fff; }
+
+        .btn-ghost-cyan { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); color: #38bdf8; }
+        .btn-ghost-cyan:hover { background: rgba(56, 189, 248, 0.25); color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="toast-container" class="toast-container"></div>
+    <div class="bg-hex-grid"></div>
+    <div class="bg-glow-bottom"></div>
+
+    <!-- CONFIRM MODAL -->
+    <div id="customConfirmModal" class="admin-lock-overlay" style="display:none; z-index: 100000;">
+        <div class="admin-lock-card" style="padding: 2rem; width: 340px; text-align: left;">
+            <h3 style="color:#fff; margin-bottom:10px; font-size:1.15rem; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> <span id="confirmTitle">Confirm Action</span>
+            </h3>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:2rem; line-height:1.5;" id="confirmMsg">Are you sure you want to proceed?</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-outline" style="flex:1; border-color: var(--card-border);" onclick="closeCustomConfirm()">Cancel</button>
+                <button class="btn" style="flex:1; background:#ef4444; color:#fff; border:none; font-weight:bold;" onclick="executeCustomConfirm()">Yes, Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROMPT MODAL -->
+    <div id="customPromptModal" class="admin-lock-overlay" style="display:none; z-index: 100000;">
+        <div class="admin-lock-card" style="padding: 2rem; width: 350px; text-align: left;">
+            <h3 style="color:#fff; margin-bottom:10px; font-size:1.15rem;"><i class="fa-solid fa-tags" style="color:#38bdf8; margin-right:8px;"></i> <span id="promptTitle">Enter Information</span></h3>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:1rem;" id="promptDesc">Creates a new sidebar subject filter.</p>
+            <input type="text" id="customPromptInput" class="form-input" style="width: 100%; margin-bottom: 1.5rem;" autocomplete="off">
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-outline" style="flex:1; border-color: var(--card-border);" onclick="closeCustomPrompt()">Cancel</button>
+                <button class="btn btn-blue" style="flex:1; border:none;" onclick="executeCustomPrompt()">Add Subject</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN -->
+    <div id="adminLockModal" class="admin-lock-overlay">
+        <div class="admin-lock-card">
+            <i class="fa-solid fa-shield-halved" style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 1rem;"></i>
+            <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 6px;">Admin Terminal</h2>
+            <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 1.5rem;">Enter security passkey to authenticate</p>
+            <form onsubmit="event.preventDefault(); unlockAdmin();">
+                <input type="password" id="adminPassInput" class="form-input" placeholder="Passcode" style="text-align: center; margin-bottom: 1rem;" required autofocus>
+                <button type="submit" class="btn-form">Unlock Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="admin-page">
+        <!-- TABS -->
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="switchTab('booksTab', this)"><i class="fa-solid fa-book-medical"></i> Book Manager</button>
+            <button class="admin-tab-btn" onclick="switchTab('usersTab', this)"><i class="fa-solid fa-users-gear"></i> User Approvals & Downloads</button>
+            <button class="admin-tab-btn" onclick="switchTab('subjectsTab', this)"><i class="fa-solid fa-tags"></i> Filter Sublists</button>
+            <button class="admin-tab-btn" onclick="switchTab('logsTab', this)"><i class="fa-solid fa-satellite-dish"></i> Live Logs</button>
+        </div>
+
+        <!-- 1. BOOK MANAGER TAB -->
+        <section id="booksTab" class="admin-section active">
+            <div class="card-admin-box">
+                <div class="card-admin-box-header">
+                    <h3><i class="fa-solid fa-book-bookmark"></i> Create New Book Card</h3>
+                </div>
+
+                <div class="mode-switcher-container">
+                    <button type="button" id="btnModeDrive" class="mode-btn active" onclick="switchBookMode('drive')"><i class="fa-brands fa-google-drive"></i> 1. Auto Google Drive Upload</button>
+                    <button type="button" id="btnModeManual" class="mode-btn" onclick="switchBookMode('manual')"><i class="fa-solid fa-link"></i> 2. Direct Link / No Upload</button>
+                </div>
+
+                <!-- SUB-MODE 1: AUTO DRIVE UPLOAD -->
+                <div id="submodeDriveContainer">
+                    <div class="upload-grid-2">
+                        <div class="custom-upload-box" id="pdfUploadBox">
+                            <h4 style="color:#fff; font-size: 0.9rem; margin-bottom:4px;">Upload Book PDF</h4>
+                            <p style="color: var(--text-muted); font-size: 0.74rem;">Permanent embedded link will be generated via Drive.</p>
+                            <input type="file" id="pdfFileInput" accept="application/pdf" style="display: none;" onchange="handleFileSelected('pdf')">
+                            
+                            <div style="margin-top:10px;">
+                                <button type="button" class="file-select-btn" onclick="document.getElementById('pdfFileInput').click()"><i class="fa-solid fa-folder-open"></i> Choose PDF</button>
+                                <button type="button" id="uploadPdfBtn" class="btn btn-blue" onclick="uploadPdfToDrive()" disabled>Upload to Drive</button>
+                            </div>
+                            
+                            <!-- THEMED UPLOAD PROGRESS BAR -->
+                            <div id="pdfProgressContainer" class="progress-wrapper">
+                                <div class="progress-bar-bg">
+                                    <div id="pdfProgressBar" class="progress-bar-fill"></div>
+                                </div>
+                                <div id="pdfProgressText" class="progress-text"><i class="fa-solid fa-cloud-arrow-up"></i> Uploading: 0.00 MB / 0.00 MB (0%)</div>
+                            </div>
+                            
+                            <div id="pdfBadgeContainer"></div>
+                        </div>
+                        <div class="custom-upload-box">
+                            <h4 style="color:#fff; font-size: 0.9rem; margin-bottom:4px;">Upload Cover (Optional)</h4>
+                            <p style="color: var(--text-muted); font-size: 0.74rem;">Thumbnail logic syncs automatically.</p>
+                            <input type="file" id="coverFileInput" accept="image/*" style="display: none;" onchange="handleFileSelected('cover')">
+                            <div style="margin-top:10px;">
+                                <button type="button" class="file-select-btn" onclick="document.getElementById('coverFileInput').click()"><i class="fa-solid fa-image"></i> Choose Cover</button>
+                                <button type="button" id="uploadCoverBtn" class="btn btn-blue" onclick="uploadCoverToDrive()" disabled>Upload Cover</button>
+                            </div>
+                            <div id="coverBadgeContainer"></div>
+                        </div>
+                    </div>
+                    
+                    <form onsubmit="event.preventDefault(); publishBookDriveMode();">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+                            <div class="form-group">
+                                <label>1. Book Title</label>
+                                <input type="text" id="driveBookTitle" class="form-input" placeholder="e.g. Mathematics Textbook Class 9" required>
+                            </div>
+                            <div class="form-group">
+                                <label>2. Filter by Subject (Sublist)</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <select id="driveBookSubjectSelect" class="form-input" style="background:#06090e; color:#fff;" required></select>
+                                    <button type="button" class="btn btn-signup" onclick="triggerCustomPrompt()" title="Add New Subject Category" style="white-space: nowrap;"><i class="fa-solid fa-plus"></i> New Sublist</button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>3. Book Description</label>
+                                <input type="text" id="driveBookDesc" class="form-input" placeholder="e.g. NCERT Science Textbook covering key Physics & Chemistry topics" required>
+                            </div>
+                        </div>
+                        <button type="submit" id="drivePublishBtn" class="btn-form" style="margin-top: 1.5rem;" disabled><i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF First to Publish Card</button>
+                    </form>
+                </div>
+
+                <!-- SUB-MODE 2: MANUAL URL LINKING -->
+                <div id="submodeManualContainer" style="display: none;">
+                    <form onsubmit="event.preventDefault(); publishBookManualMode();">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+                            <div class="form-group">
+                                <label>1. Book Title</label>
+                                <input type="text" id="manBookTitle" class="form-input" placeholder="e.g. Mathematics Class 9 Guide" required>
+                            </div>
+                            <div class="form-group">
+                                <label>2. Filter by Subject (Sublist)</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <select id="manBookSubjectSelect" class="form-input" style="background:#06090e; color:#fff;" required></select>
+                                    <button type="button" class="btn btn-signup" onclick="triggerCustomPrompt()" title="Add New Subject Category" style="white-space: nowrap;"><i class="fa-solid fa-plus"></i> New Sublist</button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>3. Book Description</label>
+                                <input type="text" id="manBookDesc" class="form-input" placeholder="e.g. Comprehensive chapter breakdown for Class 9" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>4. Preview Link (Online PDF Viewer URL)</label>
+                                <input type="text" id="manBookPreviewUrl" class="form-input" placeholder="https://example.com/viewer.pdf" required>
+                            </div>
+                            <div class="form-group">
+                                <label>5. Download Link (PDF Download URL)</label>
+                                <input type="text" id="manBookDownloadUrl" class="form-input" placeholder="https://example.com/book.pdf" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>6. Chapters Summary (Optional)</label>
+                                <input type="text" id="manBookChapters" class="form-input" placeholder="Chapter 1, Chapter 2... Includes all chapters.">
+                            </div>
+                        </div>
+                        <button type="submit" id="manPublishBtn" class="btn-form" style="margin-top: 1.5rem; background-color: var(--primary-blue);"><i class="fa-solid fa-link"></i> Publish Book Card by Link</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Active Books List -->
+            <div class="card-admin-box">
+                <div class="card-admin-box-header">
+                    <h3><i class="fa-solid fa-book"></i> Active Book Cards on Portal</h3>
+                </div>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead><tr><th>Title</th><th>Subject</th><th>Preview Link</th><th>Action</th></tr></thead>
+                        <tbody id="booksTableBody"><tr><td colspan="4" style="text-align:center;">Loading books...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. USER APPROVALS TAB -->
+        <section id="usersTab" class="admin-section">
+            <div class="card-admin-box">
+                <div class="card-admin-box-header"><h3><i class="fa-solid fa-user-clock" style="color: #eab308;"></i> Pending Approvals (<span id="pendingCount">0</span>)</h3></div>
+                <div class="admin-table-container"><table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Applied On</th><th>Action</th></tr></thead><tbody id="pendingTableBody"><tr><td colspan="4" style="text-align:center;">Loading...</td></tr></tbody></table></div>
+            </div>
+            <div class="card-admin-box">
+                <div class="card-admin-box-header"><h3><i class="fa-solid fa-users" style="color: #22c55e;"></i> Approved & Restricted Users</h3></div>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead><tr><th>Name</th><th>Email & Activity</th><th>Account Status</th><th>Action & Permissions</th></tr></thead>
+                        <tbody id="activeTableBody"><tr><td colspan="4" style="text-align:center;">Loading users...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SUBJECTS -->
+        <section id="subjectsTab" class="admin-section">
+            <div class="card-admin-box">
+                <div class="card-admin-box-header"><h3><i class="fa-solid fa-folder-plus"></i> Create New Sublist</h3></div>
+                <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 12px;">This sublist will automatically appear in the portal's left sidebar for students to filter books.</p>
+                <form onsubmit="event.preventDefault(); addSubjectCategory();" style="display: flex; gap: 10px; max-width: 450px;">
+                    <input type="text" id="newSubjectName" class="form-input" placeholder="e.g. AI, Sanskrit..." required>
+                    <button type="submit" class="btn btn-blue"><i class="fa-solid fa-plus"></i> Create</button>
+                </form>
+            </div>
+            <div class="card-admin-box">
+                <div class="card-admin-box-header"><h3><i class="fa-solid fa-list-ol"></i> Active Filter Sublists</h3></div>
+                <div class="admin-table-container"><table class="admin-table"><thead><tr><th>Subject Name</th><th>Action</th></tr></thead><tbody id="subjectsTableBody"><tr><td colspan="2" style="text-align:center;">Loading subjects...</td></tr></tbody></table></div>
+            </div>
+        </section>
+
+        <!-- 4. LOGS & DL MONITOR -->
+        <section id="logsTab" class="admin-section">
+            <div class="card-admin-box">
+                <div class="card-admin-box-header">
+                    <h3><i class="fa-solid fa-satellite-dish"></i> Live Student Session Logs & IP</h3>
+                    <button type="button" class="btn-action-clear-logs" onclick="triggerClearLogs()"><i class="fa-solid fa-trash"></i> Clear All Logs</button>
+                </div>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead><tr><th>Timestamp</th><th>Student</th><th>Email</th><th>IP Address</th><th>Status / Event</th><th>Duration</th></tr></thead>
+                        <tbody id="logsTableBody"><tr><td colspan="6" style="text-align:center;">Loading telemetry...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyem-MfyTC-Gku7VTa2BfHrl9pYHI0ys9UEPDUmDN3_xJCT_7bhA5UbrOhdbgXHW7Sw5g/exec";
+        
+        let autoPdfViewLink = "";
+        let autoPdfDownloadLink = "";
+        let autoCoverLink = "";
+        
+        // Subject to Aesthetic Color Mapping
+        function getSubjectColor(subject) {
+            const s = subject.toLowerCase();
+            if (s.includes('math')) return '#ea580c'; // Orange
+            if (s.includes('sci')) return '#16a34a';  // Green
+            if (s.includes('eng')) return '#0284c7';  // Blue
+            if (s.includes('sst') || s.includes('social')) return '#9333ea'; // Purple
+            if (s.includes('hind')) return '#dc2626'; // Red
+            if (s.includes('comp') || s.includes('it')) return '#0d9488'; // Teal
+            return '#38bdf8'; // Default Light Blue
+        }
+
+        let _confirmCallback = null;
+        let _promptCallback = null;
+        
+        function openCustomConfirm(title, message, callback) {
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmMsg').innerText = message;
+            _confirmCallback = callback;
+            document.getElementById('customConfirmModal').style.display = 'flex';
+        }
+        function closeCustomConfirm() { document.getElementById('customConfirmModal').style.display = 'none'; _confirmCallback = null; }
+        function executeCustomConfirm() { if (_confirmCallback) _confirmCallback(); closeCustomConfirm(); }
+
+        function openCustomPrompt(title, desc, placeholder, callback) {
+            document.getElementById('promptTitle').innerText = title;
+            document.getElementById('promptDesc').innerText = desc;
+            const input = document.getElementById('customPromptInput');
+            input.placeholder = placeholder; input.value = '';
+            _promptCallback = callback;
+            document.getElementById('customPromptModal').style.display = 'flex';
+            setTimeout(() => input.focus(), 100);
+        }
+        function closeCustomPrompt() { document.getElementById('customPromptModal').style.display = 'none'; _promptCallback = null; }
+        function executeCustomPrompt() { const val = document.getElementById('customPromptInput').value; if (_promptCallback) _promptCallback(val); closeCustomPrompt(); }
+
+        function showToast(title, message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if (!container) { container = document.createElement('div'); container.id = 'toast-container'; container.className = 'toast-container'; document.body.appendChild(container); }
+            const toast = document.createElement('div'); toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info toast-icon"></i><div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+            container.appendChild(toast); setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, 4000);
+        }
+
+        function unlockAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === "Admin") {
+                document.getElementById('adminLockModal').style.display = "none";
+                sessionStorage.setItem('adminUnlocked', 'true'); loadAllAdminData();
+            } else { showToast("Access Denied", "Incorrect Admin Passkey.", "error"); }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('adminUnlocked') === 'true') {
+                document.getElementById('adminLockModal').style.display = "none"; loadAllAdminData();
+            }
+        });
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active'); btn.classList.add('active');
+        }
+
+        function switchBookMode(mode) {
+            document.getElementById('submodeDriveContainer').style.display = mode === 'drive' ? 'block' : 'none';
+            document.getElementById('submodeManualContainer').style.display = mode === 'manual' ? 'block' : 'none';
+            document.getElementById('btnModeDrive').classList.toggle('active', mode === 'drive');
+            document.getElementById('btnModeManual').classList.toggle('active', mode === 'manual');
+        }
+        
+        function loadAllAdminData() { loadSubjects(); loadBooks(); loadUsers(); loadLogs(); }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader(); reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]); reader.onerror = error => reject(error);
+            });
+        }
+
+        function handleFileSelected(type) {
+            const file = document.getElementById(type + 'FileInput').files[0];
+            if (file) {
+                document.getElementById(`upload${type === 'pdf'?'Pdf':'Cover'}Btn`).disabled = false;
+                document.getElementById(`${type}BadgeContainer`).innerHTML = `<span style="font-size:0.72rem; color:var(--text-muted); margin-top:6px; display:inline-block;">Selected: ${file.name}</span>`;
+            }
+        }
+        
+        // XMLHTTPREQUEST FOR ACCURATE PROGRESS BAR UPLOADS
+        async function uploadPdfToDrive() {
+            const file = document.getElementById('pdfFileInput').files[0];
+            if (!file) return;
+
+            const btn = document.getElementById('uploadPdfBtn');
+            const progressContainer = document.getElementById('pdfProgressContainer');
+            const progressBar = document.getElementById('pdfProgressBar');
+            const progressText = document.getElementById('pdfProgressText');
+
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading to Drive...';
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            // Calculate file size purely for frontend display
+            const fileMB = (file.size / (1024 * 1024)).toFixed(2);
+
+            try {
+                const name = file.name.replace(/\s+/g, '_'); 
+                const base64 = await fileToBase64(file);
+                
+                const payload = JSON.stringify({ 
+                    action: 'uploadToDrive', 
+                    fileName: name, 
+                    fileCategory: 'pdf', 
+                    contentType: 'application/pdf', 
+                    base64Content: base64 
+                });
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", GOOGLE_APP_SCRIPT_URL, true);
+                xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+
+                // Progress Tracker
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        // Derived MBs matching actual file size for user readability
+                        const currentMB = ((e.loaded / e.total) * fileMB).toFixed(2);
+                        
+                        progressBar.style.width = percent + '%';
+                        progressText.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Uploading: ${currentMB} MB / ${fileMB} MB (${percent}%)`;
+                    }
+                };
+
+                xhr.onload = function() {
+                    btn.innerHTML = 'Upload to Drive';
+                    if (xhr.status === 200) {
+                        const result = JSON.parse(xhr.responseText);
+                        if (result.success) {
+                            autoPdfViewLink = result.viewUrl;
+                            autoPdfDownloadLink = result.downloadUrl;
+                            document.getElementById('driveBookTitle').value = file.name.replace('.pdf', '').replace(/_/g, ' ');
+                            
+                            progressText.innerHTML = `<i class="fa-solid fa-check"></i> 100% Uploaded`;
+                            document.getElementById('pdfBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-check"></i> Connected to Drive</div>`;
+                            document.getElementById('drivePublishBtn').disabled = false; 
+                            document.getElementById('drivePublishBtn').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Publish Book Card to Portal';
+                            
+                            showToast("Success", "PDF uploaded securely to Google Drive.", "success");
+                        } else {
+                            progressContainer.style.display = 'none';
+                            showToast("Error", result.message || "Failed to upload to Drive.", "error");
+                        }
+                    } else {
+                        progressContainer.style.display = 'none';
+                        showToast("Error", "Server returned an error.", "error");
+                    }
+                };
+
+                xhr.onerror = function() {
+                    btn.innerHTML = 'Upload to Drive';
+                    progressContainer.style.display = 'none';
+                    showToast("Error", "Network connectivity failed.", "error");
+                };
+
+                xhr.send(payload);
+
+            } catch(e) { 
+                btn.innerHTML = 'Upload to Drive';
+                progressContainer.style.display = 'none';
+                showToast("Error", "Initialization failed.", "error"); 
+            }
+        }
+        
+        async function uploadCoverToDrive() {
+            const file = document.getElementById('coverFileInput').files[0];
+            if (!file) return;
+            const btn = document.getElementById('uploadCoverBtn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading Cover...';
+            try {
+                const name = file.name.replace(/\s+/g, '_'); 
+                const base64 = await fileToBase64(file);
+                
+                const response = await fetch(GOOGLE_APP_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ action: 'uploadToDrive', fileName: name, fileCategory: 'cover', contentType: file.type, base64Content: base64 }) 
+                });
+                const result = await response.json();
+                
+                if(result.success) {
+                    const fileId = result.downloadUrl.split('id=')[1];
+                    autoCoverLink = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+                    
+                    document.getElementById('coverBadgeContainer').innerHTML = `<div class="badge-linked"><i class="fa-solid fa-image"></i> Graphic Attached</div>`;
+                    showToast("Success", "Cover image uploaded successfully.", "success");
+                } else {
+                    showToast("Error", result.message || "Failed to upload graphic.", "error");
+                }
+            } catch(e) {}
+            btn.innerHTML = 'Upload Cover';
+        }
+
+        async function publishBookDriveMode() {
+            const btn = document.getElementById('drivePublishBtn');
+            if (!autoPdfViewLink) { showToast("Notice", "Please upload the PDF first.", "warning"); return; }
+            btn.disabled = true; btn.innerText = "Publishing...";
+            
+            const selectedSubject = document.getElementById('driveBookSubjectSelect').value;
+            const generatedColor = getSubjectColor(selectedSubject);
+
+            const payload = { 
+                action: 'adminSaveBook', 
+                title: document.getElementById('driveBookTitle').value, 
+                subject: selectedSubject, 
+                desc: document.getElementById('driveBookDesc').value, 
+                tagColor: generatedColor,
+                coverColor: autoCoverLink || 'linear-gradient(to bottom right, #0ea5e9, #2563eb)', 
+                previewUrl: autoPdfViewLink, 
+                downloadUrl: autoPdfDownloadLink, 
+                chapters: 'Complete Textbook' 
+            };
+            
+            await fetch(GOOGLE_APP_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+            showToast("Published", "Book has been added to the portal.", "success"); 
+            await loadBooks(); 
+            
+            document.getElementById('driveBookTitle').value = ''; 
+            document.getElementById('driveBookDesc').value = '';
+            document.getElementById('pdfProgressContainer').style.display = 'none';
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF First to Publish Card';
+            document.getElementById('pdfBadgeContainer').innerHTML = '';
+            document.getElementById('coverBadgeContainer').innerHTML = '';
+            autoPdfViewLink = ""; autoPdfDownloadLink = ""; autoCoverLink = "";
+        }
+
+        async function publishBookManualMode() {
+            const btn = document.getElementById('manPublishBtn');
+            btn.disabled = true; btn.innerText = "Publishing...";
+            
+            const selectedSubject = document.getElementById('manBookSubjectSelect').value;
+            const generatedColor = getSubjectColor(selectedSubject);
+
+            const payload = { 
+                action: 'adminSaveBook', 
+                title: document.getElementById('manBookTitle').value, 
+                subject: selectedSubject, 
+                desc: document.getElementById('manBookDesc').value, 
+                tagColor: generatedColor,
+                coverColor: 'linear-gradient(to bottom right, #16a34a, #047857)', 
+                previewUrl: document.getElementById('manBookPreviewUrl').value, 
+                downloadUrl: document.getElementById('manBookDownloadUrl').value,
+                chapters: document.getElementById('manBookChapters').value || 'Complete Chapters'
+            };
+            await fetch(GOOGLE_APP_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+            showToast("Success", "Linked card is live!", "success"); 
+            await loadBooks(); 
+            
+            document.getElementById('manBookTitle').value = ''; document.getElementById('manBookDesc').value = ''; document.getElementById('manBookPreviewUrl').value = ''; document.getElementById('manBookDownloadUrl').value = '';
+            btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-link"></i> Publish Book Card by Link';
+        }
+
+        async function loadBooks() {
+            try {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=getPublicBooks&t=${Date.now()}`); 
+                const data = await res.json();
+                const tb = document.getElementById('booksTableBody'); if (!tb) return;
+                
+                if (!data.books || data.books.length === 0) { tb.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No books published yet</td></tr>'; return; }
+                tb.innerHTML = '';
+                data.books.forEach(b => tb.innerHTML += `<tr><td><b style="color:#fff;">${b.title}</b></td><td><span class="status-badge status-subj">${b.subject}</span></td><td><a href="${b.previewUrl}" target="_blank" class="btn-ghost-cyan"><i class="fa-solid fa-link"></i> Open Link</a></td><td style="width:70px;"><button type="button" class="btn-ghost-red" onclick="triggerDeleteBook('${b.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`);
+            } catch(e) {}
+        }
+        function triggerDeleteBook(id) { openCustomConfirm("Delete Book", "Are you sure you want to permanently delete this book card from the portal?", async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteBook&id=${id}`); showToast("Deleted", "Book card removed.", "success"); loadBooks(); }); }
+
+        async function loadSubjects() {
+            try {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=getPublicSubjects&t=${Date.now()}`); 
+                const data = await res.json();
+                const tb = document.getElementById('subjectsTableBody'); const driveSel = document.getElementById('driveBookSubjectSelect'); const manSel = document.getElementById('manBookSubjectSelect');
+                if (driveSel) driveSel.innerHTML = ''; if (manSel) manSel.innerHTML = ''; if (tb) tb.innerHTML = '';
+                data.subjects.forEach(s => {
+                    if (driveSel) driveSel.innerHTML += `<option value="${s}">${s}</option>`; 
+                    if (manSel) manSel.innerHTML += `<option value="${s}">${s}</option>`;
+                    if (tb) tb.innerHTML += `<tr><td style="color:#fff;"><b>${s}</b></td><td style="width:70px;"><button type="button" class="btn-ghost-red" onclick="triggerDeleteSubject('${s}')"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+                });
+            } catch(e) {}
+        }
+        
+        function triggerCustomPrompt() { openCustomPrompt("New Sublist", "Add a category to the filter sidebar.", "e.g. AI, Sanskrit...", async (val) => { if(!val || !val.trim()) return; await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSaveSubject&name=${encodeURIComponent(val)}`); showToast("Success", "Sublist added.", "success"); loadSubjects(); }); }
+        function addSubjectCategory() { const val = document.getElementById('newSubjectName').value; document.getElementById('newSubjectName').value = ''; if (val) triggerCustomPrompt(val); }
+        function triggerDeleteSubject(name) { openCustomConfirm("Delete Subject", `Are you sure you want to delete the filter sublist "${name}"?`, async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminDeleteSubject&name=${encodeURIComponent(name)}`); showToast("Deleted", "Subject removed.", "success"); loadSubjects(); }); }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminGetUsers&t=${Date.now()}`); 
+                const data = await res.json();
+                
+                document.getElementById('pendingCount').innerText = data.pending ? data.pending.length : 0;
+                
+                const pB = document.getElementById('pendingTableBody'); 
+                const aB = document.getElementById('activeTableBody');
+                
+                if (pB) {
+                    pB.innerHTML = (!data.pending || data.pending.length === 0) 
+                        ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:1.5rem;">No pending approvals</td></tr>' 
+                        : '';
+                    data.pending.forEach(u => {
+                        pB.innerHTML += `<tr>
+                            <td><b style="color:#fff;">${u.name}</b></td>
+                            <td>${u.email}</td>
+                            <td>${new Date(u.timestamp).toLocaleDateString()}</td>
+                            <td>
+                                <div style="display:flex; gap:6px;">
+                                    <button type="button" class="btn-ghost-green" onclick="setStatus('${u.email}','Approved')"><i class="fa-solid fa-check"></i> Approve</button> 
+                                    <button type="button" class="btn-ghost-red" onclick="setStatus('${u.email}','Restricted')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                                </div>
+                            </td>
+                        </tr>`;
+                    });
+                }
+                
+                const combined = [...(data.approved || []), ...(data.restricted || [])];
+                if (aB) {
+                    aB.innerHTML = (!combined.length) 
+                        ? '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:1.5rem;">No users found</td></tr>' 
+                        : '';
+                    combined.forEach(u => {
+                        const isApproved = u.status.toLowerCase() === 'approved';
+                        const dlAllowed = (u.canDownload === "Yes" || u.canDownload === true);
+                        
+                        aB.innerHTML += `<tr>
+                            <td>
+                                <b style="color:#fff;">${u.name}</b>
+                            </td>
+                            <td>
+                                <div>${u.email}</div>
+                                <span style="font-size:0.68rem; color:#64748b;">Downloads: <b style="color:#38bdf8;">${u.dlCount || 0}</b></span>
+                            </td>
+                            <td>
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                    <span class="badge-pill ${isApproved ? 'badge-approved' : 'badge-restricted'}">
+                                        ${u.status}
+                                    </span>
+                                    <span class="badge-pill ${dlAllowed ? 'badge-dl-allow' : 'badge-dl-block'}">
+                                        <i class="fa-solid ${dlAllowed ? 'fa-download' : 'fa-ban'}"></i> ${dlAllowed ? 'DL Allowed' : 'DL Blocked'}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                    ${isApproved 
+                                        ? `<button type="button" class="btn-ghost-red" onclick="setStatus('${u.email}','Restricted')"><i class="fa-solid fa-ban"></i> Restrict</button>`
+                                        : `<button type="button" class="btn-ghost-green" onclick="setStatus('${u.email}','Approved')"><i class="fa-solid fa-check"></i> Unrestrict</button>`
+                                    }
+                                    ${dlAllowed
+                                        ? `<button type="button" class="btn-ghost-red" onclick="setDownloadAccess('${u.email}', false)"><i class="fa-solid fa-lock"></i> Block DL</button>`
+                                        : `<button type="button" class="btn-ghost-cyan" onclick="setDownloadAccess('${u.email}', true)"><i class="fa-solid fa-unlock"></i> Allow DL</button>`
+                                    }
+                                </div>
+                            </td>
+                        </tr>`;
+                    });
+                }
+            } catch(e) {
+                console.error("Load users error", e);
+            }
+        }
+        
+        async function setStatus(email, s) { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetStatus&email=${encodeURIComponent(email)}&status=${s}`); loadUsers(); }
+        async function setDownloadAccess(email, allowFlag) { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminSetDownload`, { method: 'POST', body: JSON.stringify({ action: 'adminSetDownload', email: email, allow: allowFlag }) }); showToast("Updated", allowFlag ? "User download access restored." : "User download access blocked. They can only view PDFs.", "success"); loadUsers(); }
+
+        async function loadLogs() {
+            try {
+                const res = await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminGetLogs&t=${Date.now()}`); 
+                const data = await res.json();
+                const tb = document.getElementById('logsTableBody'); 
+                if (!tb) return;
+                
+                tb.innerHTML = (!data.logs || data.logs.length === 0) 
+                    ? '<tr><td colspan="6" style="text-align:center; color:#64748b; padding:2rem;">No logs recorded</td></tr>' 
+                    : '';
+
+                if (data.logs) {
+                    data.logs.forEach(l => {
+                        const statusStr = (l.status || '').toLowerCase();
+                        let eventBadge = `<span class="badge-event-offline">${l.status}</span>`;
+                        
+                        if (statusStr.includes('online')) {
+                            eventBadge = `<span class="badge-event-online"><i class="fa-solid fa-circle" style="font-size: 6px; vertical-align: middle;"></i> Online</span>`;
+                        } else if (statusStr.includes('download')) {
+                            eventBadge = `<span class="badge-event-dl"><i class="fa-solid fa-arrow-down"></i> Download</span>`;
+                        }
+
+                        tb.innerHTML += `<tr>
+                            <td style="color:#94a3b8;">${new Date(l.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</td>
+                            <td><b style="color:#fff;">${l.name}</b></td>
+                            <td>${l.email}</td>
+                            <td><span class="badge-ip">${l.ip || 'Unknown IP'}</span></td>
+                            <td>${eventBadge}</td>
+                            <td style="color:#94a3b8;">${l.duration || '-'}</td>
+                        </tr>`;
+                    });
+                }
+            } catch(e) {
+                console.error("Load logs error", e);
+            }
+        }
+        function triggerClearLogs() { openCustomConfirm("Clear Database Logs", "WARNING: This permanently wipes all tracked IP and session logs. Continue?", async () => { await fetch(`${GOOGLE_APP_SCRIPT_URL}?action=adminClearLogs`); showToast("Wiped", "All session logs have been permanently deleted.", "success"); loadLogs(); }); }
+    </script>
+</body>
+</html>
