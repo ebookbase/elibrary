@@ -259,7 +259,7 @@ body {
 /* Layout */
 .main-container {
     display: flex;
-    padding: 1.5rem 5% 3rem;
+    padding: 1.5rem 5% 3rem; 
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -1296,84 +1296,58 @@ footer {
 }
 
 @media (max-width: 950px) {
-    /* Tablet & Small Laptops */
+    /* Moves sidebar above books in a neat grid */
     .main-container {
-        flex-direction: column; /* Moves sidebar above the books */
+        flex-direction: column;
         gap: 1.5rem;
     }
-    .sidebar {
-        width: 100%;
-    }
-    /* Makes the sidebar vertical but stacks it neatly in a compact grid */
+    .sidebar { width: 100%; }
     .sidebar ul {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
         gap: 8px;
     }
     .sidebar li {
-        margin-bottom: 0;
         text-align: center;
+        margin-bottom: 0;
         background: #131720;
         border: 1px solid var(--card-border);
     }
 }
 
-@media (max-width: 768px) {
-    /* Mobile Phones (Fixes the missing Home button!) */
+@media (max-width: 850px) {
+    /* Fixes the "Home" button sliding out WITHOUT breaking Search/Login! */
     .navbar {
-        flex-direction: column;
-        padding: 1rem 5%;
-        gap: 1rem;
-        align-items: flex-start; /* Stops navbar from breaking */
+        flex-wrap: wrap; /* Allows stacking only if out of room */
+        justify-content: center;
+        padding: 0.8rem 5%;
+        gap: 12px;
     }
     .nav-left {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     .nav-links {
-        display: flex;
-        flex-wrap: wrap; /* Guarantees Home, About, etc. wrap to the next line if needed */
-        gap: 0.8rem;
-        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px; /* Slightly shrinks gap to fit better */
     }
     .nav-right {
-        width: 100%;
-        display: flex;
-        flex-direction: column; /* Stacks Search, Login, Signup vertically */
-        gap: 0.8rem;
-    }
-    .search-box {
-        width: 100%;
-        max-width: none;
-    }
-    .nav-right .btn, .user-dropdown-wrapper {
-        width: 100%; /* Makes buttons full width on tiny screens */
-        text-align: center;
+        flex-wrap: wrap;
         justify-content: center;
     }
 
-    /* Modal Adjustments for small phones */
+    /* Modal adjustments for phones */
     .modal-content {
         width: 95%;
         padding: 1.2rem;
-        max-height: 90vh;
-        overflow-y: auto;
     }
     .modal-body {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-    .modal-image {
-        margin-bottom: 1rem;
-    }
-    .modal-tags {
-        justify-content: center;
-    }
     .card-actions-row {
-        flex-direction: column; /* Stack Read/Download buttons perfectly */
+        flex-direction: column; /* Stack Read/Download buttons */
     }
 }
