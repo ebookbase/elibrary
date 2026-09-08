@@ -1316,28 +1316,45 @@ footer {
 }
 
 @media (max-width: 850px) {
-    /* Fixes the "Home" button sliding out WITHOUT breaking Search/Login! */
+    /* 1. MAKE NAVBAR ULTRA-COMPACT */
     .navbar {
-        flex-wrap: wrap; /* Allows stacking only if out of room */
+        flex-wrap: wrap; 
         justify-content: center;
-        padding: 0.8rem 5%;
-        gap: 12px;
+        padding: 0.4rem 3%; /* Slices the top and bottom padding by 50% */
+        gap: 6px; /* Tightens the vertical space between rows */
     }
-    .nav-left {
+    .nav-left, .nav-right {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 6px; 
     }
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 8px; /* Slightly shrinks gap to fit better */
+        gap: 2px; /* Pulls text links much closer together */
     }
-    .nav-right {
-        flex-wrap: wrap;
-        justify-content: center;
+    .nav-links a {
+        padding: 0.2rem 0.4rem; /* Makes the click area thinner vertically */
+        font-size: 0.78rem;
+    }
+    
+    /* 2. SHRINK HERO TEXT AREA SO IT DOESN'T EAT SCREEN SPACE */
+    .hero {
+        padding: 1rem 1rem 0.2rem; /* Cut the empty top padding in half */
+    }
+    .hero h1 {
+        font-size: 1.15rem; /* Scaled down the giant title */
+        margin-bottom: 0.1rem;
+    }
+    .hero .hero-sub {
+        font-size: 0.75rem;
+        margin-bottom: 0.8rem; /* Tighter gap below subtitle */
+    }
+    .hero h2 {
+        font-size: 0.95rem; /* Shrunk secondary title */
     }
 
-    /* Modal adjustments for phones */
+    /* 3. MODAL AND CARD FIXES */
     .modal-content {
         width: 95%;
         padding: 1.2rem;
