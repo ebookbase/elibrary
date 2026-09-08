@@ -259,7 +259,7 @@ body {
 /* Layout */
 .main-container {
     display: flex;
-    padding: 1.5rem 3rem 3rem;
+    padding: 1.5rem 5%; 
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -306,8 +306,8 @@ body {
 /* Compact Book Cards Grid */
 .book-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 1.2rem;
     width: 100%;
 }
 
@@ -1291,67 +1291,70 @@ footer {
     margin-top: 3px;
 }
 
-@media (max-width: 768px) {
-    .manage-grid { grid-template-columns: 1fr; }
-}
-
-.back-home-link:hover {
-    color: #38bdf8 !important;
-}
-@media (max-width: 900px) {
-    /* Tablet / Small Laptop View */
+@media (max-width: 950px) {
+    /* Tablet / Small Laptop */
     .main-container {
-        flex-direction: column; /* Moves sidebar above the books */
-        padding: 1.5rem 1.5rem 3rem;
+        flex-direction: column; 
+        padding: 1.5rem 4% 3rem; /* Hugs the edges nicely on smaller screens */
+        gap: 1.2rem;
     }
     .sidebar {
         width: 100%;
-        margin-bottom: 0.5rem;
     }
     .sidebar ul {
         display: flex;
-        overflow-x: auto; /* Makes subject tags scrollable left-to-right */
-        gap: 10px;
+        overflow-x: auto;
+        gap: 12px;
         padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch; /* Smooth swiping on iOS/Android */
     }
     .sidebar li {
         white-space: nowrap;
         margin-bottom: 0;
+        padding: 0.5rem 1rem;
     }
-    /* Hide scrollbar for cleaner look */
-    .sidebar ul::-webkit-scrollbar {
-        height: 4px;
-    }
-    .sidebar ul::-webkit-scrollbar-thumb {
-        background: var(--card-border);
-        border-radius: 4px;
-    }
-    .book-grid {
-        /* Adapts card width cleanly for smaller screens */
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-    }
+    .sidebar ul::-webkit-scrollbar { height: 4px; }
+    .sidebar ul::-webkit-scrollbar-thumb { background: var(--btn-blue-accent); border-radius: 4px; }
 }
 
 @media (max-width: 650px) {
-    /* Mobile Phone View */
+    /* Mobile Phones */
     .navbar {
         flex-direction: column;
+        padding: 1rem 5%;
         gap: 1rem;
-        padding: 1rem;
     }
     .nav-left {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .nav-links {
+        display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
+        gap: 0.5rem;
     }
     .nav-right {
         width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
         justify-content: space-between;
     }
     .search-box {
-        width: 100%; 
-        margin-right: 10px;
+        width: 100%; /* Search takes full width */
     }
-    /* Modal adjustments for small screens */
+    /* Forces Log In and Sign Up buttons to split exactly 50/50 side-by-side */
+    .nav-right .btn-blue, .nav-right .btn-signup, .user-dropdown-wrapper {
+        flex: 1; 
+        text-align: center;
+        justify-content: center;
+    }
+    
+    /* Fix Modals & Cards for Phones */
     .modal-content {
         width: 92%;
         padding: 1.2rem;
@@ -1361,10 +1364,15 @@ footer {
         align-items: center;
         text-align: center;
     }
+    .modal-image {
+        width: 100%;
+        max-width: 200px;
+        height: 150px;
+    }
     .modal-tags {
         justify-content: center;
     }
     .card-actions-row {
-        flex-direction: column; /* Stacks Read/Download buttons on mobile */
+        flex-direction: column; /* Stack Read/Download buttons perfectly */
     }
 }
