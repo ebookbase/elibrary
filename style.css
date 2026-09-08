@@ -1316,48 +1316,74 @@ footer {
 }
 
 @media (max-width: 850px) {
-    /* 1. MAKE NAVBAR ULTRA-COMPACT */
+    /* 1. ULTRA-MICRO NAVBAR (Forces 10% Height) */
     .navbar {
         flex-wrap: wrap; 
         justify-content: center;
-        padding: 0.4rem 3%; /* Slices the top and bottom padding by 50% */
-        gap: 6px; /* Tightens the vertical space between rows */
+        padding: 4px 3%; /* Razor-thin top/bottom padding */
+        gap: 4px; /* Squeezes rows tightly together */
     }
     .nav-left, .nav-right {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px; 
+        gap: 4px; 
+    }
+    .logo {
+        font-size: 0.85rem; /* Smaller logo */
+    }
+    .logo i {
+        font-size: 1.1rem !important;
     }
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 2px; /* Pulls text links much closer together */
+        gap: 2px; 
     }
     .nav-links a {
-        padding: 0.2rem 0.4rem; /* Makes the click area thinner vertically */
-        font-size: 0.78rem;
+        padding: 2px 4px; /* Minimum click area */
+        font-size: 0.72rem;
     }
     
-    /* 2. SHRINK HERO TEXT AREA SO IT DOESN'T EAT SCREEN SPACE */
+    /* Squashes the Search & Buttons Vertically */
+    .search-box {
+        padding: 3px 8px; /* Thinner search bar */
+    }
+    .search-box input {
+        font-size: 0.7rem;
+    }
+    .btn {
+        padding: 4px 10px; /* Thinner buttons */
+        font-size: 0.72rem;
+    }
+    
+    /* 2. MICRO HERO SECTION (Deletes all empty space) */
     .hero {
-        padding: 1rem 1rem 0.2rem; /* Cut the empty top padding in half */
+        padding: 0.5rem 1rem 0; /* Almost zero padding */
     }
     .hero h1 {
-        font-size: 1.15rem; /* Scaled down the giant title */
-        margin-bottom: 0.1rem;
+        font-size: 0.95rem; /* Massively shrunk title */
+        margin-bottom: 2px;
+        line-height: 1.1;
     }
-    .hero .hero-sub {
-        font-size: 0.75rem;
-        margin-bottom: 0.8rem; /* Tighter gap below subtitle */
+    .hero p {
+        font-size: 0.7rem;
+        margin-bottom: 4px;
+        line-height: 1.2;
     }
     .hero h2 {
-        font-size: 0.95rem; /* Shrunk secondary title */
+        font-size: 0.85rem;
+        margin-bottom: 0px;
+        line-height: 1.1;
+    }
+    /* Kills the <br> tag that creates a huge blank gap on phones */
+    .hero br {
+        display: none; 
     }
 
     /* 3. MODAL AND CARD FIXES */
     .modal-content {
         width: 95%;
-        padding: 1.2rem;
+        padding: 1rem;
     }
     .modal-body {
         flex-direction: column;
