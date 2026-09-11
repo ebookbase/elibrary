@@ -34,12 +34,17 @@
 
     <!-- Navigation -->
     <nav class="navbar">
+        <!-- 1. MOBILE AVATAR SLOT (Left Side - Hidden on Laptops) -->
+        <div class="mobile-user-slot" id="mobileUserSlot"></div>
+
+        <!-- 2. LOGO & DESKTOP LINKS -->
         <div class="nav-left">
             <div class="logo">
                 <i class="fa-solid fa-graduation-cap" style="color: #38bdf8; font-size: 25px;"></i>
                 <span>E-Books</span>
             </div>
-            <ul class="nav-links">
+            <!-- These links hide on phones -->
+            <ul class="nav-links desktop-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="subjects.html">Subjects</a></li>
                 <li><a href="sample.html">SamplePapers</a></li>
@@ -48,14 +53,46 @@
             </ul>
         </div>
         
-        <div class="nav-right">
+        <!-- 3. DESKTOP SEARCH & LOGIN (Right Side - Hidden on Phones) -->
+        <div class="nav-right" id="navRight">
             <div class="search-box">
                 <i class="fa-solid fa-search"></i>
-                <input type="text" placeholder="Search for Books, e.g., Maths, Science">
+                <input type="text" placeholder="Search for Books...">
             </div>
             <button class="btn btn-blue" onclick="window.location.href='login.html'">Log In</button>
             <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
         </div>
+
+        <!-- 4. MOBILE HAMBURGER BUTTON (Right Side - Hidden on Laptops) -->
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
+        <!-- 5. MOBILE SIDE DRAWER (Slides out when grid clicked) -->
+        <div class="mobile-side-drawer" id="mobileSideDrawer">
+            <button class="close-drawer-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <h3 style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Menu</h3>
+            <ul class="nav-links mobile-drawer-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://learntopper.in">StudyRoom</a></li>
+            </ul>
+            
+            <div class="drawer-actions" id="drawerActions">
+                <div class="search-box" style="width: 100%; margin-bottom: 15px;">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search for Books...">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-blue" style="flex: 1;" onclick="window.location.href='login.html'">Log In</button>
+                    <button class="btn btn-signup" style="flex: 1;" onclick="window.location.href='signup.html'">Sign Up</button>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
     </nav>
 
     <!-- Header / Hero Section -->
