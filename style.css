@@ -277,19 +277,29 @@ body {
     font-weight: 600;
     margin-bottom: 0.6rem;
     padding-left: 0.5rem;
+    text-transform: uppercase;
 }
 
-.sidebar ul { list-style: none; }
+.sidebar ul { 
+    list-style: none; 
+    display: flex;
+    flex-direction: column;
+}
 
 .sidebar li {
     padding: 0.4rem 0.75rem;
     margin-bottom: 0.2rem;
     border-radius: 6px;
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     cursor: pointer;
     font-weight: 500;
     transition: 0.15s ease;
+    background: transparent; /* No background box normally */
+    border: none;            /* No border */
+    text-align: left;
+    display: block;
+    width: 100%;
 }
 
 .sidebar li:hover {
@@ -297,8 +307,9 @@ body {
 }
 
 .sidebar li.active {
-    background-color: var(--sidebar-active);
+    background-color: var(--sidebar-active); /* The dark greyish-blue box */
     color: #fff;
+    box-shadow: none;
 }
 
 /* Compact Book Cards Grid */
@@ -1310,20 +1321,32 @@ footer {
 }
 
 @media (max-width: 950px) {
-    /* Moves sidebar above books but KEEPS IT VERTICAL */
+    /* Moves sidebar above books and makes it a swipable row */
     .main-container {
         flex-direction: column;
         gap: 1.5rem;
     }
     .sidebar { width: 100%; }
+    .sidebar h3 { padding-left: 0; margin-bottom: 0.5rem; }
+    
     .sidebar ul {
         display: flex;
-        flex-direction: column; /* STRICTLY VERTICAL - NO GRID */
-        gap: 8px;
+        flex-direction: row; 
+        flex-wrap: nowrap;
+        overflow-x: auto; 
+        gap: 4px;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; 
+    }
+    .sidebar ul::-webkit-scrollbar {
+        display: none; 
     }
     .sidebar li {
-        width: 100%;
-        text-align: left;
+        white-space: nowrap; 
+        width: auto;
+        margin-bottom: 0;
+        padding: 0.4rem 0.85rem;
     }
 }
 
