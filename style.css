@@ -266,7 +266,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 170px; 
+    width: 180px; 
     flex-shrink: 0;
 }
 
@@ -277,42 +277,42 @@ body {
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 0.8rem;
+    padding-left: 4px;
 }
 
 .sidebar ul { 
     list-style: none; 
     display: flex;
-    flex-direction: column;
-    gap: 8px; /* Clean vertical spacing */
+    flex-direction: column; /* FORCES STRICT VERTICAL LIST */
+    gap: 8px; 
 }
 
-/* Glassmorphism Buttons for the Left Sidebar */
 .sidebar li {
-    background: rgba(19, 23, 32, 0.6);
-    border: 1px solid var(--card-border);
+    background: #0f151e; /* Dark premium background */
+    border: 1px solid #1e2634; /* Subtle dark border */
     padding: 10px 14px;
     border-radius: 8px;
-    color: var(--text-muted);
-    font-size: 0.82rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
 }
 
 .sidebar li:hover {
     border-color: rgba(56, 189, 248, 0.4);
     color: #fff;
-    transform: translateX(4px); /* Slides slightly outward when hovered */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .sidebar li.active {
-    background: rgba(14, 165, 233, 0.12);
-    border-color: #38bdf8;
+    background: rgba(14, 165, 233, 0.05);
+    border: 1px solid #38bdf8; /* Full blue border like Image 1 */
     color: #38bdf8;
-    /* Places a cool neon blue line on the left side of the active button */
-    box-shadow: inset 3px 0 0 #38bdf8; 
+    box-shadow: inset 4px 0 0 #38bdf8; /* Thick blue left accent like Image 1 */
 }
 
 /* Compact Book Cards Grid */
@@ -1324,30 +1324,20 @@ footer {
 }
 
 @media (max-width: 950px) {
-    /* Moves sidebar above books in a neat grid */
+    /* Moves sidebar above books but KEEPS IT VERTICAL */
     .main-container {
         flex-direction: column;
         gap: 1.5rem;
     }
     .sidebar { width: 100%; }
     .sidebar ul {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        display: flex;
+        flex-direction: column; /* STRICTLY VERTICAL - NO GRID */
         gap: 8px;
     }
     .sidebar li {
-        justify-content: center;
-        text-align: center;
-        margin-bottom: 0;
-        padding: 8px 10px;
-    }
-    /* Mobile/Tablet hover effect goes UP instead of right */
-    .sidebar li:hover {
-        transform: translateY(-2px);
-    }
-    /* Active blue line moves to the BOTTOM edge in grid mode */
-    .sidebar li.active {
-        box-shadow: inset 0 -3px 0 #38bdf8; 
+        width: 100%;
+        text-align: left;
     }
 }
 
@@ -1367,27 +1357,27 @@ footer {
         align-items: center;
     }
 
-    /* 2. SWIPABLE PILL MENU FOR LINKS (Saves Screen Height!) */
+    /* 2. SWIPABLE PILL MENU FOR LINKS */
     .nav-links {
         width: 100%;
         display: flex;
-        flex-wrap: nowrap; /* Forces a single line */
-        overflow-x: auto; /* Allows swiping left/right */
+        flex-wrap: nowrap; 
+        overflow-x: auto; 
         justify-content: flex-start;
         gap: 8px;
-        padding-bottom: 4px; /* Space for hidden scrollbar */
+        padding-bottom: 4px; 
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Hides scrollbar on Firefox */
+        scrollbar-width: none; 
     }
     .nav-links::-webkit-scrollbar {
-        display: none; /* Hides scrollbar on Chrome/Safari/Phones */
+        display: none; 
     }
     .nav-links a {
         white-space: nowrap;
         background: #131720;
         border: 1px solid var(--card-border);
         padding: 6px 14px;
-        border-radius: 20px; /* Modern Pill Shape */
+        border-radius: 20px; 
         font-size: 0.75rem;
         transition: 0.2s;
     }
@@ -1397,16 +1387,16 @@ footer {
         color: #38bdf8;
     }
 
-    /* 3. SMART GRID FOR SEARCH & BUTTONS */
+    /* 3. SMART GRID FOR SEARCH & BUTTONS (UNTOUCHED - PERFECT 50/50) */
     .nav-right {
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Locks Log In & Sign Up to 50% each */
+        grid-template-columns: 1fr 1fr; 
         gap: 10px;
     }
 
     .search-box {
-        grid-column: span 2; /* Search bar stretches across both columns */
+        grid-column: span 2; 
         width: 100%;
         padding: 6px 12px;
     }
@@ -1422,7 +1412,6 @@ footer {
         margin: 0;
     }
 
-    /* Keep Logged-In User Button Full Width */
     .user-dropdown-wrapper {
         grid-column: span 2;
         width: 100%;
@@ -1449,7 +1438,7 @@ footer {
         font-size: 0.95rem;
     }
     .hero br {
-        display: none; /* Kills ugly empty space */
+        display: none; 
     }
 
     /* 5. MODAL FIXES */
@@ -1465,6 +1454,6 @@ footer {
         text-align: center;
     }
     .card-actions-row {
-        flex-direction: column; /* Stack Read/Download buttons neatly */
+        flex-direction: column; 
     }
 }
