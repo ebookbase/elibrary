@@ -275,51 +275,53 @@ function attachFilterListeners() {
 // 7. REAL-TIME SEARCH BAR
 // =========================================================
 function initSearchBar() {
-    const searchInput = document.querySelector('.search-box input');
-    if (!searchInput) return;
+    const searchInputs = document.querySelectorAll('.search-box input');
+    if (searchInputs.length === 0) return;
 
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim();
-        if (!term) {
-            renderBooks(activeSubjectFilter);
-            return;
-        }
+    searchInputs.forEach(searchInput => {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            if (!term) {
+                renderBooks(activeSubjectFilter);
+                return;
+            }
 
-        const matched = allPortalBooks.filter(b => 
-            b.title.toLowerCase().includes(term) || 
-            b.subject.toLowerCase().includes(term) || 
-            b.desc.toLowerCase().includes(term)
-        );
+            const matched = allPortalBooks.filter(b => 
+                b.title.toLowerCase().includes(term) || 
+                b.subject.toLowerCase().includes(term) || 
+                b.desc.toLowerCase().includes(term)
+            );
 
-        const grid = document.getElementById('book-grid');
-        if (!grid) return;
-        
-        grid.innerHTML = '';
-        if (matched.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">No matching books found.</div>`;
-            return;
-        }
+            const grid = document.getElementById('book-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            if (matched.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">No matching books found.</div>`;
+                return;
+            }
 
-        matched.forEach(book => {
-            const isImageUrl = book.coverColor && (book.coverColor.startsWith('http') || book.coverColor.startsWith('data:'));
-            const coverStyle = isImageUrl 
-                ? `background-image: url('${book.coverColor}'); background-size: cover;` 
-                : `background: ${book.coverColor || '#0ea5e9'}; color: ${book.coverText || '#fff'};`;
+            matched.forEach(book => {
+                const isImageUrl = book.coverColor && (book.coverColor.startsWith('http') || book.coverColor.startsWith('data:'));
+                const coverStyle = isImageUrl 
+                    ? `background-image: url('${book.coverColor}'); background-size: cover;` 
+                    : `background: ${book.coverColor || '#0284c7'}; color: ${book.coverText || '#fff'};`;
 
-            grid.insertAdjacentHTML('beforeend', `
-                <div class="card" data-id="${book.id}">
-                    <div class="card-top">
-                        <div class="card-img-placeholder" style="${coverStyle}">${!isImageUrl ? book.title : ''}</div>
-                        <div class="card-info">
-                            <span class="card-title">${book.title}</span>
-                            <p class="card-desc">${book.desc}</p>
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="card" data-id="${book.id}">
+                        <div class="card-top">
+                            <div class="card-img-placeholder" style="${coverStyle}">${!isImageUrl ? book.title : ''}</div>
+                            <div class="card-info">
+                                <span class="card-title">${book.title}</span>
+                                <p class="card-desc">${book.desc}</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-primary" onclick="openModalById('${book.id}')">VIEW EBOOK</button>
                         </div>
                     </div>
-                    <div class="card-actions">
-                        <button class="btn-card-primary" onclick="openModalById('${book.id}')"><i class="fa-regular fa-eye"></i> VIEW EBOOK</button>
-                    </div>
-                </div>
-            `);
+                `);
+            });
         });
     });
 }
@@ -335,64 +337,99 @@ document.addEventListener('DOMContentLoaded', () => {
     initUserSession();       
 });
 
+function toggleMobileMenu() {
+    const drawer = document.getElementById('mobileSideDrawer');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    if (drawer && overlay) {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+}
+
 function initUserSession() {
     const rawUser = localStorage.getItem('portalUser');
-    const navRight = document.querySelector('.nav-right');
+    const navRight = document.getElementById('navRight');
+    const drawerActions = document.getElementById('drawerActions');
+    const mobileUserSlot = document.getElementById('mobileUserSlot');
 
-    if (!rawUser || !navRight) return;
-
+    if (!rawUser) return;
     const user = JSON.parse(rawUser);
+    const initial = user.name.charAt(0).toUpperCase();
 
-    navRight.innerHTML = `
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search for Books, e.g. Maths, Science">
-        </div>
-        <div class="user-dropdown-wrapper" id="userDropdownWrapper">
-            <button type="button" class="user-greeting-btn" onclick="toggleUserDropdown(event)">
-                <span>Hi, ${user.name}</span>
-                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
-            </button>
-            <div class="user-dropdown-menu" id="userDropdownMenu">
-                <a href="manage.html" class="dropdown-item">
-                    <i class="fa-solid fa-user-gear"></i> Manage Account
-                </a>
-                <div class="dropdown-divider"></div>
-                <button type="button" class="dropdown-item dropdown-logout" onclick="handleLogout()">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                </button>
+    // Inject Desktop Dropdown
+    if (navRight) {
+        navRight.innerHTML = `
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search for Books...">
             </div>
-        </div>
-    `;
+            <div class="user-dropdown-wrapper" id="userDropdownWrapper">
+                <button type="button" class="user-greeting-btn" onclick="toggleUserDropdown(event, 'userDropdownMenu', 'userDropdownWrapper')">
+                    <span>Hi, ${user.name}</span>
+                    <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                </button>
+                <div class="user-dropdown-menu" id="userDropdownMenu">
+                    <a href="manage.html" class="dropdown-item"><i class="fa-solid fa-user-gear"></i> Manage Account</a>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" class="dropdown-item dropdown-logout" onclick="handleLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                </div>
+            </div>
+        `;
+    }
 
+    // Inject Mobile Drawer Search (Removes Login/Signup since user is logged in)
+    if (drawerActions) {
+        drawerActions.innerHTML = `
+            <div class="search-box" style="width: 100%;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search for Books...">
+            </div>
+        `;
+    }
+
+    // Inject Mobile Circular Avatar (On Left Edge)
+    if (mobileUserSlot) {
+        mobileUserSlot.innerHTML = `
+            <div class="user-dropdown-wrapper" id="mobileUserDropdownWrapper">
+                <button type="button" class="mobile-avatar-btn" onclick="toggleUserDropdown(event, 'mobileUserDropdownMenu', 'mobileUserDropdownWrapper')">
+                    ${initial}
+                </button>
+                <div class="user-dropdown-menu mobile-dropdown" id="mobileUserDropdownMenu">
+                    <div class="mobile-user-name">${user.name}</div>
+                    <div class="mobile-user-email">${user.email}</div>
+                    <div class="dropdown-divider"></div>
+                    <a href="manage.html" class="dropdown-item"><i class="fa-solid fa-user-gear"></i> Manage Account</a>
+                    <button type="button" class="dropdown-item dropdown-logout" onclick="handleLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // Clicks anywhere close all dropdowns
     document.addEventListener('click', (e) => {
-        const wrapper = document.getElementById('userDropdownWrapper');
-        const menu = document.getElementById('userDropdownMenu');
-        if (wrapper && menu && !wrapper.contains(e.target)) {
-            wrapper.classList.remove('active');
-            menu.classList.remove('show');
-        }
+        const w1 = document.getElementById('userDropdownWrapper');
+        const m1 = document.getElementById('userDropdownMenu');
+        const w2 = document.getElementById('mobileUserDropdownWrapper');
+        const m2 = document.getElementById('mobileUserDropdownMenu');
+        
+        if (w1 && m1 && !w1.contains(e.target)) { w1.classList.remove('active'); m1.classList.remove('show'); }
+        if (w2 && m2 && !w2.contains(e.target)) { w2.classList.remove('active'); m2.classList.remove('show'); }
     });
 
     checkRestrictedStatus(user);
     setInterval(() => checkRestrictedStatus(user), 30000);
-
-    logSilentTelemetry(user, "Online");
-    window.addEventListener('online', () => sendSilentTelemetryPing(user, "Online"));
-    window.addEventListener('offline', () => sendSilentTelemetryPing(user, "Offline"));
-    window.addEventListener('beforeunload', () => sendSilentTelemetryPing(user, "Offline (Tab Closed)"));
-
-    initSearchBar();
+    sendSilentTelemetryPing(user, "User Grid Access Event Start"); 
+    window.addEventListener('beforeunload', () => sendSilentTelemetryPing(user, "Event Halt")); 
+    
+    initSearchBar(); // Re-initialize search so both desktop/mobile bars work
 }
 
-function toggleUserDropdown(event) {
+function toggleUserDropdown(event, menuId, wrapperId) {
     event.stopPropagation();
-    const wrapper = document.getElementById('userDropdownWrapper');
-    const menu = document.getElementById('userDropdownMenu');
-    if (wrapper && menu) {
-        wrapper.classList.toggle('active');
-        menu.classList.toggle('show');
-    }
+    const w = document.getElementById(wrapperId);
+    const m = document.getElementById(menuId);
+    if (w) w.classList.toggle('active');
+    if (m) m.classList.toggle('show');
 }
 
 async function checkRestrictedStatus(user) {
