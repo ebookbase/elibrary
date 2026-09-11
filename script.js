@@ -9,6 +9,15 @@ const bookGrid = document.getElementById('book-grid');
 const modal = document.getElementById('modal');
 const closeModalBtn = document.getElementById('close-modal');
 
+function toggleMobileMenu() {
+    const drawer = document.getElementById('mobileSideDrawer');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    if (drawer && overlay) {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+}
+
 // =========================================================
 // 2. SELF-HEALING THEMED TOAST NOTIFICATION ENGINE
 // =========================================================
@@ -336,15 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSearchBar();         
     initUserSession();       
 });
-
-function toggleMobileMenu() {
-    const drawer = document.getElementById('mobileSideDrawer');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    if (drawer && overlay) {
-        drawer.classList.toggle('open');
-        overlay.classList.toggle('open');
-    }
-}
 
 function initUserSession() {
     const rawUser = localStorage.getItem('portalUser');
