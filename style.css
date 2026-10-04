@@ -1417,9 +1417,9 @@ footer {
         transition: 0.2s;
     }
     .mobile-drawer-links a.active {
-        background: rgba(56, 189, 248, 0.15);
-        border-color: #38bdf8;
-        color: #38bdf8;
+        background: rgba(92, 92, 93, 0.15);
+        border-color: #ffffff;
+        color: #ffffff;
     }
 
     /* Dark Overlay Background */
@@ -1526,4 +1526,3 @@ footer {
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.05); /* Very subtle white glow */
     }
 }
-
