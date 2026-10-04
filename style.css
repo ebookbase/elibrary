@@ -1333,9 +1333,16 @@ footer {
         position: relative; 
     }
 
-    /* Force Hide Desktop Links/Login on Mobile */
+    /* Hide Desktop Elements */
     .desktop-links, #navRight {
         display: none !important;
+    }
+
+    /* Center the Logo */
+    .nav-left {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     /* Show Mobile Hamburger & Avatar Slot */
@@ -1344,9 +1351,8 @@ footer {
         align-items: center;
         width: 40px; 
     }
-    
     .mobile-menu-btn {
-        display: flex; /* Turns button on for phones */
+        display: flex;
         align-items: center;
         justify-content: flex-end;
         background: transparent;
@@ -1357,32 +1363,22 @@ footer {
         width: 40px;
     }
 
-    /* Center the Logo perfectly */
-    .nav-left {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        flex-direction: row;
-        width: auto;
-    }
-
     /* 3. THE SIDE DRAWER (SLIDES IN FROM THE LEFT) */
     .mobile-side-drawer {
-        display: flex; /* Activates layout */
+        display: flex;
         position: fixed;
         top: 0;
-        left: -320px; /* Hidden completely off-screen to the LEFT */
+        left: -320px; /* Hidden off-screen to the LEFT */
         width: 280px;
         height: 100vh;
         background: #0a0d13;
-        border-right: 1px solid var(--card-border);
+        border-right: 1px solid var(--card-border); /* Border on the right edge */
         flex-direction: column;
         padding: 4rem 1.5rem 2rem;
         transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 10001;
         box-shadow: 10px 0 30px rgba(0,0,0,0.6); /* Shadow points right */
     }
-    
     .mobile-side-drawer.open {
         left: 0; /* Slides into view from the Left */
     }
@@ -1403,43 +1399,44 @@ footer {
     .mobile-drawer-links {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-bottom: 15px;
+        gap: 10px;
+        margin-bottom: 25px;
         list-style: none;
         padding: 0;
     }
-    
     .mobile-drawer-links a {
-         text-decoration: none;
-         color: var(--text-muted);
-         font-size: 1rem;
-         font-weight: 500;
-         padding: 0.35rem 0.65rem;
-         border-radius: 6px;
-         transition: 0.15s;
+        display: block;
+        background: #131720;
+        border: 1px solid var(--card-border);
+        padding: 14px 18px;
+        border-radius: 12px;
+        color: #e2e8f0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: 0.2s;
     }
-    
     .mobile-drawer-links a.active {
-         color: #fff;
-         background-color: rgba(255, 255, 255, 0.06);
+        background: rgba(56, 189, 248, 0.15);
+        border-color: #38bdf8;
+        color: #38bdf8;
     }
 
     /* Dark Overlay Background */
     .mobile-menu-overlay {
-        display: block; /* Turns on for mobile */
+        display: block;
         position: fixed;
         inset: 0;
         background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(3px);
         z-index: 10000;
         opacity: 0;
-        pointer-events: none; /* Allows clicking through when invisible */
+        pointer-events: none;
         transition: opacity 0.3s ease;
     }
-    
     .mobile-menu-overlay.open {
         opacity: 1;
-        pointer-events: auto; /* Catches clicks to close menu */
+        pointer-events: auto;
     }
 
     /* Logged In Circular Avatar */
@@ -1465,20 +1462,16 @@ footer {
         right: auto;
         width: 220px;
     }
-    
     .mobile-user-name {
         padding: 10px 12px 0;
         color: #fff;
         font-weight: 700;
         font-size: 0.9rem;
-        text-align: left;
     }
-    
     .mobile-user-email {
         padding: 2px 12px 10px;
         color: #64748b;
         font-size: 0.75rem;
-        text-align: left;
     }
 
     .main-container {
