@@ -1325,7 +1325,6 @@ footer {
     display: none;
 }
 
-/* 2. MOBILE APP VIEW ONLY (Phones & Tablets) */
 @media (max-width: 850px) {
     .navbar {
         justify-content: space-between;
@@ -1404,30 +1403,25 @@ footer {
     .mobile-drawer-links {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-bottom: 25px;
+        gap: 12px;
+        margin-bottom: 15px;
         list-style: none;
         padding: 0;
     }
     
     .mobile-drawer-links a {
-        display: block;
-        background: #131720;
-        border: 1px solid var(--card-border);
-        padding: 14px 18px;
-        border-radius: 12px;
-        color: #e2e8f0;
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-decoration: none;
-        transition: 0.2s;
-        text-align: left;
+         text-decoration: none;
+         color: var(--text-muted);
+         font-size: 1rem;
+         font-weight: 500;
+         padding: 0.35rem 0.65rem;
+         border-radius: 6px;
+         transition: 0.15s;
     }
     
     .mobile-drawer-links a.active {
-        background: rgba(56, 189, 248, 0.15);
-        border-color: #38bdf8;
-        color: #38bdf8;
+         color: #fff;
+         background-color: rgba(255, 255, 255, 0.06);
     }
 
     /* Dark Overlay Background */
@@ -1486,4 +1480,57 @@ footer {
         font-size: 0.75rem;
         text-align: left;
     }
+
+    .main-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .sidebar { width: 100%; }
+    
+    .sidebar h3 { 
+        padding-left: 0; 
+        margin-bottom: 0.8rem;
+    }
+    
+    /* 2. Create the 2-Column Grid layout */
+    .sidebar ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+        padding-bottom: 0;
+    }
+    
+    /* 3. Themed Grey Rectangle Boxes (Sharper, less rounded) */
+    .sidebar li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: #161b22; /* Premium dark grey */
+        border: 1px solid #30363d; /* Subtle grey border */
+        border-radius: 6px; /* LESS ROUNDED: Sharper rectangle shape */
+        padding: 7px; 
+        color: #8b949e; /* Muted grey text */
+        font-size: 0.85rem;
+        font-weight: 600;
+        width: 100%;
+        margin: 0;
+        transition: all 0.2s ease;
+    }
+
+    /* Hover effect */
+    .sidebar li:hover {
+        background: #21262d;
+        color: #e2e8f0;
+    }
+
+    /* 4. Highlighted Box (White/Grey instead of Blue!) */
+    .sidebar li.active {
+        background: rgba(255, 255, 255, 0.08); /* Soft white/grey inner tint */
+        border: 1px solid #cbd5e1; /* Clean white/light-grey outline */
+        color: #ffffff; /* Crisp white text */
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.05); /* Very subtle white glow */
+    }
 }
+
