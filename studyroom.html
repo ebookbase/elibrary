@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studyroom | E-Library</title>
+<link rel="icon" type="image/svg+xml" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    darkBg: '#09090b', 
+                    cardBg: '#18181b', 
+                    borderDark: '#27272a', 
+                },
+                fontFamily: {
+                    sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    heading: ['"Outfit"', 'sans-serif'],
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    body {
+        background-color: #09090b;
+        color: #f4f4f5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6, .font-heading {
+        font-family: 'Outfit', sans-serif !important;
+        letter-spacing: -0.01em;
+    }
+
+    #scraped-content-box {
+        color: #e4e4e7; 
+        min-height: 70vh;
+    }
+
+    .back-to-categories-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.6rem !important;
+        background-color: #18181b !important;
+        color: #cbd5e1 !important;
+        border: 1px solid #27272a !important;
+        padding: 0.55rem 1.15rem !important;
+        border-radius: 10px !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        margin-bottom: 1.6rem !important;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+        width: fit-content !important;
+    }
+
+    .back-to-categories-btn:hover {
+        background-color: #27272a !important;
+        color: #ffffff !important;
+        border-color: rgba(63, 63, 63, 0.45) !important;
+        transform: translateX(-4px) !important;
+        box-shadow: 0 6px 20px rgba(57, 57, 57, 0.15) !important;
+    }
+
+    .back-to-categories-btn i {
+        font-size: 0.8rem !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .back-to-categories-btn:hover i {
+        transform: translateX(-2px) !important;
+    }
+
+    #scraped-content-box .ebook-badge-style {
+        background-color: #1c2230 !important;
+        color: #a0aec0 !important;
+        font-size: 0.58rem !important;
+        font-weight: 600 !important;
+        padding: 0.15rem 0.4rem !important;
+        border-radius: 4px !important;
+        display: inline-block !important;
+        text-transform: uppercase !important;
+        margin-top: 0.2rem !important;
+        margin-bottom: 0.2rem !important;
+        border: none !important;
+        letter-spacing: 0.05em !important;
+        width: max-content !important;
+        line-height: 1.2 !important;
+    }
+
+    #scraped-content-box [class*="text-gray-9"], #scraped-content-box [class*="text-gray-8"],
+    #scraped-content-box [class*="text-slate-9"], #scraped-content-box [class*="text-slate-8"],
+    #scraped-content-box [class*="text-zinc-9"], #scraped-content-box [class*="text-zinc-8"],
+    #scraped-content-box [class*="text-neutral-9"], #scraped-content-box [class*="text-neutral-8"],
+    #scraped-content-box [class*="text-black"] {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+
+    #scraped-content-box [class*="text-gray-7"], #scraped-content-box [class*="text-gray-6"],
+    #scraped-content-box [class*="text-slate-7"], #scraped-content-box [class*="text-slate-6"],
+    #scraped-content-box [class*="text-zinc-7"], #scraped-content-box [class*="text-zinc-6"] {
+        color: #e4e4e7 !important;
+        font-weight: 500 !important;
+    }
+
+    #scraped-content-box [class*="text-gray-5"], #scraped-content-box [class*="text-slate-5"],
+    #scraped-content-box [class*="text-zinc-5"] {
+        color: #a1a1aa !important; 
+    }
+
+    #scraped-content-box h1, #scraped-content-box h2, #scraped-content-box h3, #scraped-content-box h4 {
+        color: #ffffff !important;
+    }
+
+    #scraped-content-box .bg-white,
+    #scraped-content-box [class*="bg-white"],
+    #scraped-content-box [class*="bg-gray-50"], #scraped-content-box [class*="bg-slate-50"],
+    #scraped-content-box [class*="bg-zinc-50"],
+    #scraped-content-box [class*="bg-gray-100"], #scraped-content-box [class*="bg-slate-100"] {
+        background-color: #18181b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 14px !important;
+        transition: all 0.25s ease !important;
+    }
+
+    #scraped-content-box [class*="bg-slate-900"], 
+    #scraped-content-box [class*="bg-gray-900"] {
+        background-color: #111113 !important; 
+        border: 1px solid #27272a !important; 
+    }
+
+    #scraped-content-box a > .bg-white:hover,
+    #scraped-content-box div[class*="hover:bg"]:hover {
+        transform: translateY(-4px) !important;
+        border-color: #3b82f6 !important; 
+        box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5) !important;
+        background-color: #202024 !important;
+    }
+
+    #scraped-content-box [class*="border-gray-"], 
+    #scraped-content-box [class*="border-slate-"],
+    #scraped-content-box [class*="border-zinc-"] {
+        border-color: #27272a !important; 
+    }
+
+    #scraped-content-box a[class*="bg-gray-"], #scraped-content-box button[class*="bg-gray-"],
+    #scraped-content-box a[class*="bg-slate-"], #scraped-content-box button[class*="bg-slate-"] {
+        background-color: #27272a !important; 
+        color: #ffffff !important;
+        border: 1px solid #3f3f46 !important;
+    }
+    #scraped-content-box a[class*="bg-gray-"]:hover, #scraped-content-box button[class*="bg-gray-"]:hover {
+        background-color: #3f3f46 !important;
+    }
+
+    #scraped-content-box img {
+        background-color: #ffffff !important; 
+        border-radius: 12px !important;
+        padding: 5px !important; 
+        object-fit: contain !important;
+        border: 1px solid rgba(255,255,255,0.1) !important; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+    }
+
+    #scraped-content-box [class*="bg-green-"] {
+        background-color: rgba(34, 197, 94, 0.15) !important;
+        border: 1px solid rgba(34, 197, 94, 0.3) !important;
+        color: #4ade80 !important;
+    }
+    #scraped-content-box span[class*="bg-blue-"] {
+        background-color: rgba(59, 130, 246, 0.15) !important;
+        border: 1px solid rgba(59, 130, 246, 0.3) !important;
+        color: #60a5fa !important;
+    }
+
+    .glass-nav {
+        background: rgba(9, 9, 11, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(39, 39, 42, 0.8);
+    }
+    
+    @media (max-width: 800px) {
+        #scraped-content-box div[class*="grid-cols-"] {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+</head>
+<body class="flex flex-col min-h-screen selection:bg-blue-500 selection:text-white">
+    <div id="toast-container" class="toast-container"></div>
+
+<div class="bg-hex-grid"></div>
+<div class="bg-glow-bottom"></div>
+<div class="bg-glow-top"></div>
+<div class="bg-watermark">
+    &lt;html&gt;<br>
+    &nbsp;&nbsp;&lt;head&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Main App&lt;/title&gt;<br>
+    &nbsp;&nbsp;&lt;/head&gt;<br>
+    &nbsp;&nbsp;&lt;body&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dev"&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Init. True: Mount;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+    &lt;/html&gt;
+</div>
+    
+    <nav class="navbar">
+        <div class="mobile-user-slot" id="mobileUserSlot"></div>
+        <div class="nav-left">
+            <div class="logo">
+                <a href="index.html"><img src="logo.png" alt="Portal Logo" class="nav-logo"></a>
+                <span>E-Books</span>
+            </div>
+            <ul class="nav-links desktop-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="studyroom.html" class="active">StudyRoom</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right" id="navRight">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search for Books...">
+            </div>
+            <button class="btn btn-blue" onclick="window.location.href='login.html'">Log In</button>
+            <button class="btn btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
+        <div class="mobile-side-drawer" id="mobileSideDrawer">
+            <button class="close-drawer-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <h3 style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Menu</h3>
+            <ul class="nav-links mobile-drawer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="subjects.html">Subjects</a></li>
+                <li><a href="sample.html">SamplePapers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="studyroom.html" class="active">StudyRoom</a></li>
+            </ul>
+            
+            <div class="drawer-actions" id="drawerActions">
+                <div class="search-box" style="width: 100%; margin-bottom: 15px;">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search for Books...">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-blue" style="flex: 1;" onclick="window.location.href='login.html'">Log In</button>
+                    <button class="btn btn-signup" style="flex: 1;" onclick="window.location.href='signup.html'">Sign Up</button>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+    </nav>
+
+<main class="flex-grow w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div id="scraped-content-box"></div>
+</main>
+
+<footer>
+    <div class="footer">
+        &copy; 2026 Class 9 E-Library. All rights reserved. Belongs to Owner.
+    </div>
+</footer>
+
+<script>
+        const SCRIPT_PROXY_URL = 'https://script.google.com/macros/s/AKfycbxrL3y_70KEpMYrSDgExO35ZZdy-JNdQ4p8EZWu3DCHMcnozFiUORYzbga5LsMobihvmg/exec';
+        const BASE_TARGET_DOMAIN = 'https://studywithgaurav.cc.cd';
+
+        function isAuthenticated() { 
+            try {
+                return localStorage.getItem('portalUser') ? JSON.parse(localStorage.getItem('portalUser')) : null; 
+            } catch(e) { 
+                return null; 
+            }
+        }
+
+        function showToast(title, message, type = 'info', duration = 4000) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container'; 
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { 
+                success: 'fa-solid fa-circle-check', 
+                error: 'fa-solid fa-circle-xmark', 
+                warning: 'fa-solid fa-triangle-exclamation', 
+                info: 'fa-solid fa-circle-info' 
+            };
+
+            toast.innerHTML = `
+                <i class="${icons[type] || icons.info} toast-icon"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-msg">${message}</div>
+                </div>
+                <button type="button" class="toast-close" onclick="this.parentElement.remove()">✕</button>
+            `;
+            
+            container.appendChild(toast); 
+            setTimeout(() => toast.classList.add('show'), 15);
+            setTimeout(() => { 
+                toast.classList.remove('show'); 
+                setTimeout(() => toast.remove(), 350); 
+            }, duration);
+        }
+
+        async function loadScrapedPage(path) {
+            const fullTargetUrl = BASE_TARGET_DOMAIN + path;
+            const box = document.getElementById('scraped-content-box');
+            
+            box.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:50vh; color:#3b82f6; font-family:'Outfit', sans-serif; font-size:1.25rem; font-weight:600;">
+                    <i class="fa-solid fa-circle-notch fa-spin fa-2x" style="margin-bottom: 15px; display: block;"></i>
+                    Syncing Directory...
+                </div>`;
+
+            let rawHtml = "";
+
+            try {
+                const fetchUrl = `${SCRIPT_PROXY_URL}?action=scrapeProxy&url=${encodeURIComponent(fullTargetUrl)}&t=${Date.now()}`;
+                const response = await fetch(fetchUrl);
+                const data = await response.json();
+
+                if (data.success) {
+                    rawHtml = data.html;
+                } else {
+                    throw new Error(data.message || "Proxy encountered an error fetching this target.");
+                }
+            } catch (error) {
+                console.error("Network Error:", error);
+                box.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 3rem;">
+                    <i class="fa-solid fa-satellite-dish fa-2x" style="margin-bottom:10px;"></i><br>
+                    <span style="font-weight:700;">Proxy Connection Failed</span><br>
+                    <span style="font-size:0.8rem; color:#a1a1aa;">${error.message}</span>
+                </div>`;
+                return;
+            }
+
+            try {
+                processScrapedHTML(rawHtml, fullTargetUrl);
+            } catch (error) {
+                console.error("DOM Processing Error:", error);
+                box.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 3rem;">
+                    <i class="fa-solid fa-file-code fa-2x" style="margin-bottom:10px;"></i><br>
+                    <span style="font-weight:700;">HTML Rendering Engine Crashed</span><br>
+                    <span style="font-size:0.8rem; color:#a1a1aa;">${error.message}</span>
+                </div>`;
+            }
+        }
+
+        function processScrapedHTML(rawHtml, currentUrl) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(rawHtml, "text/html");
+            const cleanNodes = (node) => {
+                const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2B50}\u{2728}]/gu;
+                if (node.nodeType === 3) {
+                    let val = node.nodeValue.replace(emojiRegex, '').replace(/\s+/g, ' ').trim();
+                    val = val.replace(/\b\d+\s*portals?\b/gi, '');
+                    val = val.replace(/\b\d+\s*curated\s*domains?\b/gi, '');
+                    if (node.nodeValue !== val) node.nodeValue = val;
+                } else if (node.nodeType === 1) {
+                    node.childNodes.forEach(cleanNodes);
+                }
+            };
+            cleanNodes(doc.body);
+
+            doc.querySelectorAll('p, span, div, a').forEach(el => {
+                if (el.children.length === 0 && el.textContent) {
+                    let cleanTxt = el.textContent.replace(/\s+/g, '').toLowerCase();
+                    let normalTxt = el.textContent.trim().toUpperCase();
+                    
+                    let isTargetText = 
+                        cleanTxt.match(/^\d+portals?$/) || 
+                        cleanTxt.match(/^\d+curateddomains?$/) || 
+                        cleanTxt.includes('curateddomains') || 
+                        normalTxt.includes('EDUCATIONAL SUBJECTS & PORTALS');
+
+                    if (isTargetText) {
+                        let pill = el.closest('.inline-flex') || el.closest('.rounded-full');
+                        
+                        if (pill && pill.textContent.length < 100 && !pill.querySelector('h1')) {
+                            pill.remove();
+                        } else if (el.parentElement && el.parentElement.textContent.length < 100 && !el.parentElement.querySelector('h1')) {
+                            el.parentElement.remove(); 
+                        } else {
+                            if (el.previousElementSibling && el.previousElementSibling.tagName === 'SVG') {
+                                el.previousElementSibling.remove();
+                            }
+                            el.remove();
+                        }
+                    }
+                }
+            });
+
+            doc.querySelectorAll('div, ul').forEach(el => {
+                const text = el.textContent || '';
+                if (text.includes('All Domains') && text.includes('Institutes & Batches') && text.includes('Competitive Exams')) {
+                    if (!el.querySelector('input') && !el.querySelector('img') && text.length < 250) {
+                        el.remove();
+                    }
+                }
+            });
+
+            doc.querySelectorAll('a, button, span').forEach(el => {
+                const txt = el.textContent.trim().toLowerCase();
+                if (txt === 'back to all categories' || (txt.includes('back to all categories') && txt.length < 35)) {
+                    let btn = el.tagName === 'A' || el.tagName === 'BUTTON' ? el : (el.closest('a') || el.closest('button') || el);
+                    
+                    if (btn && !btn.dataset.btnStyled) {
+                        btn.dataset.btnStyled = "true";
+                        btn.setAttribute('href', '#/categories');
+                        btn.setAttribute('onclick', "window.location.hash='#/categories'; window.scrollTo({top:0, behavior:'smooth'}); return false;");
+                        btn.innerHTML = `<span>Back to All Categories</span>`;
+                        btn.className = 'back-to-categories-btn';
+                    }
+                }
+            });
+
+            doc.querySelectorAll('header, footer, nav.global-nav, iframe, .modal, .popup, [id*="modal"], [id*="popup"], a[href*="1win"], a[href*="telegram"]').forEach(el => el.remove());
+
+            let pageCategoryTitle = "Platform Resource";
+            const mainH1 = doc.querySelector('h1');
+            
+            if (mainH1) {
+                let rawTitle = mainH1.textContent;
+                pageCategoryTitle = rawTitle.replace(/\bOFFICIAL\b/ig, '').replace(/\bPORTAL\b/ig, '').replace(/\s+/g, ' ').trim();
+                
+                Array.from(mainH1.childNodes).forEach(node => {
+                    if (node.nodeType === 3 && node.nodeValue.trim().length > 0) {
+                        node.nodeValue = pageCategoryTitle;
+                    }
+                });
+
+                let prevSibling = mainH1.previousElementSibling;
+                if (prevSibling) {
+                    if (prevSibling.tagName === 'SVG') {
+                        prevSibling.remove();
+                    } else if (!prevSibling.textContent.trim() && prevSibling.querySelector('svg') && !prevSibling.querySelector('img')) {
+                        prevSibling.remove();
+                    }
+                }
+                
+                let firstChild = mainH1.parentElement ? mainH1.parentElement.firstElementChild : null;
+                if (firstChild && firstChild !== mainH1 && firstChild.tagName !== 'IMG' && !firstChild.textContent.trim() && firstChild.querySelector('svg')) {
+                    firstChild.remove();
+                }
+            }
+            
+            const isMainCategoryPage = pageCategoryTitle.includes('Browse by Category') || pageCategoryTitle.includes('All Categories');
+
+            doc.querySelectorAll('nav, div, ul').forEach(el => {
+                const text = el.textContent || '';
+                if (text.includes('Home') && text.includes('Resources') && text.replace(/\s+/g, '').length < 150) {
+                    el.remove();
+                }
+            });
+
+            doc.querySelectorAll('p, span, div, a').forEach(el => {
+                if (el.children.length === 0) {
+                    const txt = el.textContent.trim().toUpperCase();
+                    const cls = typeof el.className === 'string' ? el.className : '';
+
+                    const isWhiteBlueBadge = (cls.includes('bg-white') || cls.includes('bg-blue-')) && (cls.includes('text-blue-') || cls.includes('text-indigo-')) && txt.length > 2 && txt.length < 35;
+                    
+                    if (txt === 'POPULAR' || (isWhiteBlueBadge && !isMainCategoryPage)) {
+                        const isHeading = el.closest('h1, h2, h3, h4, .text-xl, .text-lg');
+                        if (!isHeading) {
+                            let pill = el.closest('.rounded-full') || el.closest('.inline-flex') || el.closest('.absolute') || el;
+                            if (pill && pill.tagName !== 'BODY' && pill.tagName !== 'MAIN' && !pill.className.includes('border')) {
+                                pill.remove();
+                            } else {
+                                el.remove();
+                            }
+                        }
+                    }
+
+                    const validEbookTags = ['BATCHES & COURSES', 'VIDEO LECTURES', 'JEE & NEET PREP', 'PORTAL', 'MOCK TESTS', 'NOTES', 'TEST SERIES', 'BOARD & EXAM PREP', 'BATCHES & STUDY MATERIAL'];
+                    if (validEbookTags.includes(txt)) {
+                        el.className = 'ebook-badge-style';
+                    }
+                }
+            });
+
+            doc.querySelectorAll('span, div, p').forEach(el => {
+                const cls = typeof el.className === 'string' ? el.className : '';
+                const txt = el.textContent.trim().toUpperCase();
+                if (cls.includes('bg-yellow-') || cls.includes('bg-orange-') || cls.includes('bg-amber-')) {
+                    if (txt === '' || txt === 'POPULAR') el.remove();
+                }
+            });
+            doc.querySelectorAll('svg').forEach(svg => {
+                let parent = svg.parentElement;
+                if (parent) {
+                    let cls = typeof parent.className === 'string' ? parent.className : '';
+                    if (cls.includes('yellow') || cls.includes('orange') || cls.includes('amber') || cls.includes('flame')) {
+                        if (parent.textContent.length < 50) {
+                            parent.remove();
+                        } else {
+                            svg.remove();
+                        }
+                    }
+                }
+            });
+
+            if (!isMainCategoryPage) {
+                doc.querySelectorAll('div').forEach(div => {
+                    const text = div.textContent || '';
+                    if (text.includes('Unlock Free Batch Notes') && text.includes('DPPs') && text.replace(/\s+/g, '').length < 250) {
+                        div.remove();
+                    }
+                    if (text.includes('Looking for a structured') && text.includes('step-by-step track') && text.replace(/\s+/g, '').length < 250) {
+                        let section = div.closest('section') || div.closest('.bg-blue-600') || div;
+                        if(section.tagName !== 'BODY') section.remove();
+                    }
+                });
+
+                const killList = [
+                    "Curriculum & Academic Scope", "Recommended Study Protocol", "Common Mistakes to Avoid",
+                    "Frequently Asked Questions", "About", "Editorial Review", "Key Educational Features",
+                    "Student Learning Benefits", "Actionable Study Protocol", "How to Study",
+                    "Objective Editorial Assessment", "Advantages & Considerations", "Related Learning Roadmaps",
+                    "Recommended Roadmaps", "Structured Learning Pathways", "Looking for a structured",
+                    "Official Source Attribution", "Disclaimer", "Related Resources", "Explore other verified"
+                ];
+
+                doc.querySelectorAll('h2, h3, h4, span, p, div').forEach(el => {
+                    if (el.children.length === 0 || el.tagName.match(/H[1-6]/)) {
+                        const txt = el.textContent.trim();
+                        if (killList.some(k => txt.includes(k))) {
+                            let cardBlock = el.closest('section') || el.closest('.border') || el.closest('.rounded-2xl') || el.closest('.rounded-xl') || el.closest('[class*="bg-slate-900"]') || el.closest('[class*="bg-blue-"]') || el.parentElement.parentElement;
+                            if (cardBlock && cardBlock.tagName !== 'MAIN' && cardBlock.tagName !== 'BODY' && cardBlock.id !== 'scraped-content-box') {
+                                if (!cardBlock.querySelector('h1')) {
+                                    cardBlock.remove();
+                                }
+                            }
+                        }
+                    }
+                });
+
+                doc.querySelectorAll('nav, ul, div').forEach(el => {
+                    const text = el.textContent || '';
+                    let isOldTabs = text.includes('Overview') && text.includes('Features') && text.includes('Study Protocol') && text.length < 200;
+                    let isNewTabs = text.includes('Curriculum Scope') && text.includes('Category FAQs') && text.length < 300;
+                    
+                    if (isOldTabs || isNewTabs) {
+                        el.remove();
+                    }
+                });
+
+                if (mainH1) {
+                    let headerFlexBox = mainH1.closest('div.flex') || mainH1.parentElement.parentElement;
+                    if (headerFlexBox) {
+                        let topImg = headerFlexBox.querySelector('img');
+                        if (topImg) {
+                            let parentBox = topImg.parentElement;
+                            if (parentBox && parentBox.tagName === 'DIV' && parentBox.tagName !== 'MAIN') {
+                                parentBox.style.setProperty('background-color', 'transparent', 'important');
+                                parentBox.style.setProperty('border', 'none', 'important');
+                                parentBox.style.setProperty('box-shadow', 'none', 'important');
+                                parentBox.classList.remove('bg-white', 'border', 'shadow');
+                            }
+                        }
+                    }
+                }
+
+                let visitBtns = Array.from(doc.querySelectorAll('a, button')).filter(btn => btn.textContent.trim().startsWith('Visit'));
+                visitBtns.forEach(btn => {
+                    let card = btn.closest('div.border, div.rounded-xl, div.rounded-2xl, article');
+                    if (!card || card.querySelector('h1')) return;
+
+                    let walk = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+                    let n;
+                    while(n = walk.nextNode()) {
+                        let txt = n.nodeValue.trim();
+                        let up = txt.toUpperCase();
+
+                        if (txt.length < 3) continue;
+                        if (txt.length > 45) continue;
+                        
+                        if (up.includes('VISIT') || up.includes('DETAILS') || up === 'POPULAR' || up === 'NEW' ||
+                            up.includes('BATCHES & COURSES') || up.includes('VIDEO LECTURES') || up.includes('JEE & NEET PREP') || 
+                            up.includes('CURATED RESOURCE') || up.includes('EDUCATIONAL LISTING') || up.includes('OFFICIAL PLATFORM') ||
+                            up === 'PORTAL' || up === 'MOCK TESTS' || up === 'NOTES' || up === 'TEST SERIES' || up === 'Curated Educational Resource'
+                        ) continue;
+
+                        let p = n.parentElement;
+                        let isBadge = false;
+                        while(p && p !== card) {
+                            let cls = typeof p.className === 'string' ? p.className : '';
+                            if (cls.includes('ebook-badge') || cls.includes('text-xs')) {
+                                isBadge = true; break;
+                            }
+                            p = p.parentElement;
+                        }
+                        if (isBadge) continue;
+
+                        n.nodeValue = pageCategoryTitle;
+                        break; 
+                    }
+                });
+            }
+
+            doc.querySelectorAll('*').forEach(el => {
+                const cls = typeof el.className === 'string' ? el.className : '';
+                if (cls.includes('fixed') || cls.includes('z-50') || cls.includes('top-4')) el.remove();
+            });
+
+            const allImages = Array.from(doc.querySelectorAll('img'));
+            
+            const watermarkStyles = "position:absolute !important; right:-15px !important; bottom:-15px !important; width:150px !important; height:150px !important; opacity:0.12 !important; z-index:0 !important; pointer-events:none !important; background:transparent !important; border:none !important; box-shadow:none !important; padding:0 !important; filter:grayscale(100%) !important; object-fit:contain !important;";
+
+            allImages.forEach(img => {
+                let cls = typeof img.className === 'string' ? img.className.toLowerCase() : '';
+                let isWatermark = cls.includes('absolute') || cls.includes('opacity') || cls.includes('z-0');
+
+                let realSrc = img.getAttribute('data-src') || img.getAttribute('srcset');
+                if (realSrc) {
+                    let firstUrl = realSrc.split(',')[0].trim().split(' ')[0];
+                    if (firstUrl) img.setAttribute('src', firstUrl);
+                }
+                
+                img.removeAttribute('srcset');
+                img.removeAttribute('data-src');
+
+                if (isWatermark) {
+                    img.className = 'card-watermark';
+                    img.style.cssText = watermarkStyles; 
+                } else {
+                    img.removeAttribute('class');
+                    img.removeAttribute('style');
+                }
+            });
+
+            doc.querySelectorAll('img, a, source').forEach(el => {
+                ['src', 'href'].forEach(attr => {
+                    if (el.hasAttribute(attr)) {
+                        try {
+                            const absoluteUrl = new URL(el.getAttribute(attr), BASE_TARGET_DOMAIN).href;
+                            el.setAttribute(attr, absoluteUrl);
+                        } catch(e) {} 
+                    }
+                });
+            });
+
+            if (!isMainCategoryPage) {
+                let mainHeroLogoSrc = null;
+                for (let img of allImages) {
+                    let src = img.getAttribute('src');
+                    if (!img.classList.contains('card-watermark') && src && src.includes('http') && !src.includes('avatar') && !src.includes('favicon')) {
+                        mainHeroLogoSrc = src; break;
+                    }
+                }
+                
+                if (mainHeroLogoSrc) {
+                    allImages.forEach((img) => {
+                        if (!img.classList.contains('card-watermark')) {
+                            img.setAttribute('src', mainHeroLogoSrc);
+                        }
+                    });
+                    
+                    let visitBtns = Array.from(doc.querySelectorAll('a, button')).filter(btn => btn.textContent.trim().startsWith('Visit'));
+                    
+                    visitBtns.forEach(btn => {
+                        let card = btn.closest('.border, .rounded-xl, .rounded-2xl, [class*="bg-"]') || btn.parentElement.parentElement;
+                        
+                        if (card && !card.querySelector('.card-watermark')) {
+                            card.style.position = 'relative';
+                            card.style.overflow = 'hidden';
+                            
+                            let wm = doc.createElement('img');
+                            wm.src = mainHeroLogoSrc;
+                            wm.className = 'card-watermark';
+                            wm.style.cssText = watermarkStyles;
+                            
+                            card.appendChild(wm);
+
+                            Array.from(card.children).forEach(child => {
+                                if (child !== wm) {
+                                    child.style.position = 'relative';
+                                    child.style.zIndex = '10';
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            doc.querySelectorAll('a, button, div, span, p').forEach(el => {
+                const txt = el.textContent.trim();
+                
+                if (txt.startsWith('Details') && (el.tagName === 'A' || el.tagName === 'BUTTON')) {
+                    el.remove();
+                }
+
+                if (txt.startsWith('Visit') && (el.tagName === 'A' || el.tagName === 'BUTTON')) {
+                    let svgIcon = el.querySelector('svg');
+                    let iconStr = svgIcon ? svgIcon.outerHTML : '<i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.85em; margin-left:6px;"></i>';
+                    el.innerHTML = `<span style="display:flex; align-items:center; justify-content:center; gap:8px;">Explore Domain</span>`;
+                    el.style.width = '100%';
+                    el.style.flex = '1';
+                    
+                    el.classList.add('secure-action-btn');
+                }
+
+                if (txt.startsWith('Visit') || txt.startsWith('Explore')) {
+                    let card = el.closest('div.border, div.rounded-xl, div.rounded-2xl, article, [class*="bg-slate-900"]');
+                    if (card) {
+                        card.classList.add('premium-hover-card');
+                        card.setAttribute('data-secure-card', 'true'); 
+                        
+                        Array.from(card.children).forEach(child => {
+                            if (child.tagName !== 'IMG') {
+                                child.style.position = 'relative';
+                                child.style.zIndex = '10';
+                            }
+                        });
+                    }
+                }
+            });
+
+            const mainContent = doc.querySelector('main') || doc.querySelector('.container') || doc.body;
+            document.getElementById('scraped-content-box').innerHTML = mainContent.innerHTML;
+
+            attachLinkInterceptors();
+            attachFavoriteInterceptors(); 
+        }
+        
+        window.addEventListener('hashchange', () => {
+            let path = window.location.hash.substring(1); 
+            if (!path) path = '/categories';
+            loadScrapedPage(path);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        const searchInputs = document.querySelectorAll('.search-box input');
+        
+        searchInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                searchInputs.forEach(inp => { if(inp !== e.target) inp.value = e.target.value; });
+                
+                const gridItems = document.querySelectorAll('#scraped-content-box [class*="grid-cols-"] > *');
+                
+                gridItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = ''; 
+                    } else {
+                        item.style.display = 'none'; 
+                    }
+                });
+            });
+            
+            document.getElementById('scraped-content-box').addEventListener('input', (e) => {
+            if (e.target.tagName === 'INPUT') {
+                const query = e.target.value.toLowerCase().trim();
+                const gridContainers = document.querySelectorAll('#scraped-content-box div[class*="grid-cols-"]');
+                
+                gridContainers.forEach(grid => {
+                    Array.from(grid.children).forEach(card => {
+                        if (card.contains(e.target)) return;
+
+                        const text = card.textContent.toLowerCase();
+                        if (text.includes(query)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+         });
+        });
+        
+        window.addEventListener('hashchange', () => {
+            searchInputs.forEach(inp => inp.value = '');
+        });
+
+        function attachLinkInterceptors() {
+            const container = document.getElementById('scraped-content-box');
+            const secureLinks = container.querySelectorAll('.secure-action-btn, [data-secure-card="true"] a');
+            
+            secureLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const user = isAuthenticated();
+                    if (!user) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showToast("Access Blocked", "You Must Log In To Explore This Platform.", "error", 4500);
+                    }
+                });
+            });
+
+            const allLinks = container.querySelectorAll('a');
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (e.defaultPrevented) return;
+                    
+                    const href = link.getAttribute('href');
+                    if (href && (href.startsWith('/') || href.includes('studywithgaurav.cc.cd'))) {
+                        e.preventDefault(); 
+                        try {
+                            const urlObj = new URL(href, BASE_TARGET_DOMAIN);
+                            const path = urlObj.pathname + urlObj.search;
+                            window.location.hash = path; 
+                        } catch(err) {}
+                    }
+                });
+            });
+        }
+
+        function attachFavoriteInterceptors() {
+            const box = document.getElementById('scraped-content-box');
+            const possibleFavButtons = box.querySelectorAll('a, button, div.cursor-pointer');
+            
+            possibleFavButtons.forEach(btn => {
+                const text = btn.textContent.trim().toLowerCase();
+                const hasSvg = btn.querySelector('svg');
+                
+                let isFav = false;
+                if (hasSvg) {
+                    if (text === '' || text.includes('bookmark') || text.includes('save') || text.includes('favorite')) {
+                        isFav = true;
+                    } else if (btn.getAttribute('aria-label') && (btn.getAttribute('aria-label').toLowerCase().includes('bookmark') || btn.getAttribute('aria-label').toLowerCase().includes('save'))) {
+                        isFav = true;
+                    } else if (text.length < 15 && !text.includes('explore') && !text.includes('visit') && !text.includes('back')) {
+                        isFav = true;
+                    }
+                }
+                
+                if (isFav) {
+                    if (btn.tagName === 'A') {
+                        btn.removeAttribute('href');
+                    }
+                    
+                    btn.style.cursor = 'pointer';
+                    btn.style.transition = 'all 0.2s ease';
+                    btn.setAttribute('data-active', 'false'); 
+                    
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation(); 
+                        
+                        const user = isAuthenticated();
+                        if (!user) {
+                            showToast("Access Locked", "You Must Log In To Bookmark Platforms.", "error", 4500);
+                            return;
+                        }
+
+                        let isActive = btn.getAttribute('data-active') === 'true';
+                        let svg = btn.querySelector('svg');
+                        
+                        if (!isActive) {
+                            btn.setAttribute('data-active', 'true');
+                            btn.style.setProperty('color', '#38bdf8', 'important'); 
+                            
+                            if (svg) {
+                                svg.setAttribute('fill', '#38bdf8');
+                                svg.style.setProperty('fill', '#38bdf8', 'important');
+                            }
+                            showToast("Saved!", "Platform added to your bookmarks.", "success", 2500);
+                        } else {
+                            btn.setAttribute('data-active', 'false');
+                            btn.style.removeProperty('color');
+                            
+                            if (svg) {
+                                svg.setAttribute('fill', 'none');
+                                svg.style.removeProperty('fill');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            let path = window.location.hash.substring(1);
+            if (!path) path = '/categories';
+            loadScrapedPage(path);
+        });
+        
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
